@@ -4,1111 +4,705 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rev Signal Labs – Shopify Analytics That Converts</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #080b12;
-    --surface: #0d1220;
-    --surface2: #131929;
-    --border: rgba(255,255,255,0.07);
-    --accent: #00e5a0;
-    --accent2: #3d7fff;
-    --accent3: #ff5e7d;
-    --text: #e8edf5;
-    --muted: #6b7a99;
-    --glow: rgba(0,229,160,0.15);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* --- NOISE TEXTURE OVERLAY --- */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.5;
-  }
-
-  /* GRID BG */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 60px;
-    background: rgba(8,11,18,0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-icon {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-
-  .logo span { color: var(--accent); }
-
-  .nav-links {
-    display: flex;
-    gap: 36px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--text); }
-
-  .nav-cta {
-    background: var(--accent);
-    color: #080b12;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    padding: 10px 22px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s;
-    letter-spacing: 0.02em;
-  }
-
-  .nav-cta:hover {
-    background: #00fdb5;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(0,229,160,0.3);
-  }
-
-  /* HERO */
-  .hero {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 140px 20px 100px;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    top: -200px; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 800px;
-    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, rgba(61,127,255,0.05) 40%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(0,229,160,0.08);
-    border: 1px solid rgba(0,229,160,0.25);
-    border-radius: 100px;
-    padding: 6px 16px;
-    font-size: 0.8rem;
-    color: var(--accent);
-    font-weight: 500;
-    margin-bottom: 32px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .badge-dot {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 2s ease infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.7); }
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    max-width: 900px;
-    margin-bottom: 24px;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .hero h1 .highlight {
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero p {
-    font-size: 1.15rem;
-    color: var(--muted);
-    max-width: 540px;
-    margin-bottom: 44px;
-    font-weight: 300;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #080b12;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    padding: 14px 32px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: all 0.25s;
-    box-shadow: 0 0 0 0 rgba(0,229,160,0.4);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0,229,160,0.35);
-  }
-
-  .btn-ghost {
-    color: var(--muted);
-    font-size: 0.9rem;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: color 0.2s;
-  }
-
-  .btn-ghost:hover { color: var(--text); }
-
-  /* DASHBOARD MOCKUP */
-  .hero-visual {
-    position: relative;
-    margin-top: 80px;
-    width: 100%;
-    max-width: 1000px;
-    animation: fadeUp 0.8s 0.4s ease both;
-  }
-
-  .dashboard-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 80px rgba(0,229,160,0.05);
-    overflow: hidden;
-  }
-
-  .dash-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .dash-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-
-  .dash-range {
-    font-size: 0.78rem;
-    color: var(--muted);
-    background: var(--surface2);
-    padding: 5px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-  }
-
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
-  .kpi {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-
-  .kpi-label {
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-
-  .kpi-value {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.6rem;
-    color: var(--text);
-  }
-
-  .kpi-change {
-    font-size: 0.72rem;
-    margin-top: 4px;
-    color: var(--accent);
-  }
-
-  .kpi-change.neg { color: var(--accent3); }
-
-  /* CHART */
-  .chart-area {
-    height: 160px;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    gap: 6px;
-  }
-
-  .chart-bar {
-    flex: 1;
-    border-radius: 5px 5px 0 0;
-    transition: opacity 0.2s;
-    position: relative;
-    cursor: pointer;
-  }
-
-  .chart-bar:hover { opacity: 0.75; }
-
-  .chart-bar.primary { background: linear-gradient(180deg, var(--accent), rgba(0,229,160,0.3)); }
-  .chart-bar.secondary { background: linear-gradient(180deg, var(--accent2), rgba(61,127,255,0.25)); }
-
-  /* STATS */
-  .stats-section {
-    position: relative; z-index: 1;
-    padding: 60px 60px;
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .stat {
-    flex: 1;
-    max-width: 240px;
-    text-align: center;
-    padding: 20px 40px;
-    border-right: 1px solid var(--border);
-  }
-
-  .stat:last-child { border-right: none; }
-
-  .stat-value {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .stat-label {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  /* SECTIONS */
-  section {
-    position: relative;
-    z-index: 1;
-  }
-
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-    margin-bottom: 16px;
-  }
-
-  .section-sub {
-    color: var(--muted);
-    font-size: 1rem;
-    max-width: 480px;
-    font-weight: 300;
-  }
-
-  /* FEATURES */
-  .features {
-    padding: 120px 60px;
-  }
-
-  .features-header {
-    text-align: center;
-    margin-bottom: 72px;
-  }
-
-  .features-header .section-sub { margin: 0 auto; }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-  }
-
-  .feature-card {
-    background: var(--surface);
-    padding: 40px;
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .feature-card:hover { background: var(--surface2); }
-  .feature-card:hover::before { opacity: 1; }
-
-  .feature-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin-bottom: 20px;
-    background: rgba(0,229,160,0.08);
-    border: 1px solid rgba(0,229,160,0.15);
-  }
-
-  .feature-icon.blue {
-    background: rgba(61,127,255,0.08);
-    border-color: rgba(61,127,255,0.15);
-  }
-
-  .feature-icon.pink {
-    background: rgba(255,94,125,0.08);
-    border-color: rgba(255,94,125,0.15);
-  }
-
-  .feature-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-
-  .feature-desc {
-    font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* HOW IT WORKS */
-  .how-it-works {
-    padding: 100px 60px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .hiw-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .step {
-    display: flex;
-    gap: 20px;
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-  }
-
-  .step:last-child { border-bottom: none; }
-
-  .step-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 0.8rem;
-    color: var(--accent);
-    width: 28px;
-    flex-shrink: 0;
-    padding-top: 2px;
-  }
-
-  .step-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 6px;
-  }
-
-  .step-desc {
-    font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-
-  .hiw-visual {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 30px;
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .mini-chart-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-bottom: 16px;
-  }
-
-  .funnel {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .funnel-step {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .funnel-bar-wrap {
-    flex: 1;
-    background: rgba(255,255,255,0.04);
-    border-radius: 4px;
-    height: 28px;
-    overflow: hidden;
-  }
-
-  .funnel-bar {
-    height: 100%;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  .funnel-label { font-size: 0.72rem; color: var(--muted); width: 80px; text-align: right; }
-  .funnel-pct { font-size: 0.72rem; color: var(--muted); width: 36px; text-align: right; }
-
-  /* PRICING */
-  .pricing {
-    padding: 120px 60px;
-  }
-
-  .pricing-header {
-    text-align: center;
-    margin-bottom: 64px;
-  }
-
-  .pricing-header .section-sub { margin: 0 auto; }
-
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .pricing-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-    position: relative;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .pricing-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  }
-
-  .pricing-card.featured {
-    background: linear-gradient(135deg, rgba(0,229,160,0.06), rgba(61,127,255,0.06));
-    border-color: rgba(0,229,160,0.3);
-    box-shadow: 0 0 0 1px rgba(0,229,160,0.15), 0 20px 80px rgba(0,229,160,0.08);
-  }
-
-  .featured-badge {
-    position: absolute;
-    top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--accent);
-    color: #080b12;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.7rem;
-    padding: 4px 14px;
-    border-radius: 20px;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-  }
-
-  .plan-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
-
-  .plan-price {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 2.8rem;
-    margin-bottom: 4px;
-    line-height: 1;
-  }
-
-  .plan-period {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-
-  .plan-divider {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 24px;
-  }
-
-  .plan-features {
-    list-style: none;
-    margin-bottom: 32px;
-  }
-
-  .plan-features li {
-    font-size: 0.875rem;
-    color: var(--muted);
-    padding: 7px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .plan-features li::before {
-    content: '✓';
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.8rem;
-  }
-
-  .plan-btn {
-    display: block;
-    text-align: center;
-    padding: 13px;
-    border-radius: 10px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.875rem;
-    text-decoration: none;
-    transition: all 0.2s;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
-  .plan-btn:hover { background: var(--surface2); color: var(--text); }
-
-  .plan-btn.featured-btn {
-    background: var(--accent);
-    color: #080b12;
-    border-color: transparent;
-  }
-
-  .plan-btn.featured-btn:hover {
-    background: #00fdb5;
-    box-shadow: 0 8px 24px rgba(0,229,160,0.3);
-  }
-
-  /* TESTIMONIALS */
-  .testimonials {
-    padding: 100px 60px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-  }
-
-  .testimonials-header {
-    text-align: center;
-    margin-bottom: 64px;
-  }
-
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .testimonial-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    transition: border-color 0.3s;
-  }
-
-  .testimonial-card:hover { border-color: rgba(0,229,160,0.2); }
-
-  .stars {
-    color: var(--accent);
-    font-size: 0.8rem;
-    margin-bottom: 14px;
-    letter-spacing: 2px;
-  }
-
-  .testimonial-text {
-    font-size: 0.9rem;
-    color: var(--text);
-    line-height: 1.7;
-    margin-bottom: 20px;
-    font-style: italic;
-    font-weight: 300;
-  }
-
-  .testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .author-avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Syne', sans-serif;
-  }
-
-  .author-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.875rem;
-  }
-
-  .author-store {
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  /* CTA */
-  .cta-section {
-    padding: 140px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-glow {
-    position: absolute;
-    bottom: -200px; left: 50%; transform: translateX(-50%);
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 65%);
-    pointer-events: none;
-  }
-
-  .cta-section h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 20px;
-  }
-
-  .cta-section p {
-    font-size: 1rem;
-    color: var(--muted);
-    margin-bottom: 44px;
-    font-weight: 300;
-  }
-
-  /* FOOTER */
-  footer {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 40px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-  }
-
-  .footer-logo span { color: var(--accent); }
-
-  .footer-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-  }
-
-  .footer-links a {
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: var(--text); }
-
-  .footer-copy {
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* SHOPIFY BADGE */
-  .shopify-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(150,191,75,0.08);
-    border: 1px solid rgba(150,191,75,0.25);
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 0.8rem;
-    color: #96bf4b;
-    font-weight: 600;
-    margin-top: 32px;
-  }
+:root {
+  --bg: #f7f8fc;
+  --white: #ffffff;
+  --surface: #f0f2f8;
+  --border: #e3e7f0;
+  --text: #0f1623;
+  --text-sec: #4a5568;
+  --muted: #8a94a8;
+  --accent: #0d6efd;
+  --accent-light: #e8f0fe;
+  --accent-dark: #0a58ca;
+  --green: #00c48c;
+  --green-light: #e0faf3;
+  --red: #ff4d6a;
+  --red-light: #fff0f3;
+  --yellow: #ffb703;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.10);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --t: 0.2s ease;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent-light); color: var(--accent);
+  font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 5px 12px; border-radius: 100px; margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 800; line-height: 1.18;
+  letter-spacing: -0.025em; margin-bottom: 12px;
+}
+.section-sub { font-size: 1rem; color: var(--text-sec); max-width: 480px; line-height: 1.7; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 0.9rem;
+  padding: 12px 24px; border-radius: var(--radius-sm);
+  cursor: pointer; border: none; transition: all var(--t); white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(13,110,253,0.3); }
+.btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(13,110,253,0.35); }
+.btn-outline { background: transparent; color: var(--text-sec); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.btn-white { background: #fff; color: var(--accent); box-shadow: var(--shadow-md); }
+.btn-white:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index: 1000;
+  background: rgba(247,248,252,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 16px;
+}
+.logo {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800; font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.logo-mark {
+  width: 34px; height: 34px; background: var(--accent);
+  border-radius: 9px; display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 18px; height: 18px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; list-style: none; gap: 4px; }
+.nav-links a {
+  font-size: 0.875rem; font-weight: 500; color: var(--text-sec);
+  padding: 6px 14px; border-radius: 6px; transition: all var(--t);
+}
+.nav-links a:hover { color: var(--text); background: var(--surface); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-login { font-size: 0.875rem; font-weight: 600; color: var(--text-sec); transition: color var(--t); cursor: pointer; }
+.nav-login:hover { color: var(--text); }
+
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 6px; border-radius: 6px;
+  background: none; border: none; transition: background var(--t);
+}
+.hamburger:hover { background: var(--surface); }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s ease; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  z-index: 999; padding: 16px 24px 24px;
+  flex-direction: column; gap: 4px; box-shadow: var(--shadow-lg);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 1rem; font-weight: 500; color: var(--text-sec);
+  padding: 12px 16px; border-radius: 8px; transition: all var(--t);
+}
+.mobile-menu a:hover { background: var(--surface); color: var(--text); }
+.mobile-cta-link {
+  margin-top: 8px !important; text-align: center;
+  background: var(--accent) !important; color: #fff !important;
+  font-weight: 700 !important; padding: 14px !important;
+  border-radius: 10px !important;
+}
+.mobile-cta-link:hover { background: var(--accent-dark) !important; }
+
+/* HERO */
+.hero { padding: 140px 0 80px; text-align: center; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--green-light); color: var(--green);
+  border: 1px solid rgba(0,196,140,0.2); border-radius: 100px;
+  padding: 6px 14px 6px 10px; font-size: 0.78rem; font-weight: 700;
+  margin-bottom: 28px; animation: fadeUp 0.5s ease both;
+}
+.live-dot {
+  width: 7px; height: 7px; background: var(--green);
+  border-radius: 50%; animation: livePulse 2s ease infinite;
+}
+@keyframes livePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,196,140,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(0,196,140,0); }
+}
+.hero h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.03em; max-width: 800px;
+  margin: 0 auto 20px; animation: fadeUp 0.5s 0.08s ease both;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-sub {
+  font-size: 1.1rem; color: var(--text-sec); max-width: 500px;
+  margin: 0 auto 40px; animation: fadeUp 0.5s 0.16s ease both;
+}
+.hero-ctas {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+  animation: fadeUp 0.5s 0.24s ease both; margin-bottom: 12px;
+}
+.hero-note { font-size: 0.78rem; color: var(--muted); animation: fadeUp 0.5s 0.32s ease both; }
+
+/* DASHBOARD */
+.hero-dashboard { margin-top: 64px; animation: fadeUp 0.6s 0.4s ease both; }
+.dash-wrap {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 24px;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.8) inset;
+  overflow: hidden;
+}
+.dash-top {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.dash-store { display: flex; align-items: center; gap: 10px; }
+.dash-store-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, #96bf4b, #5e8e3e);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.dash-store-name { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.9rem; }
+.dash-store-sub { font-size: 0.72rem; color: var(--muted); }
+.dash-period {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 14px;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-sec); cursor: pointer;
+}
+.kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
+.kpi-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+.kpi-label { font-size: 0.68rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+.kpi-val {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800; font-size: 1.5rem; line-height: 1; margin-bottom: 6px;
+}
+.kpi-delta {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 2px 7px; border-radius: 100px;
+}
+.kpi-delta.up { background: var(--green-light); color: var(--green); }
+.kpi-delta.down { background: var(--red-light); color: var(--red); }
+.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.chart-title { font-size: 0.8rem; font-weight: 700; color: var(--text-sec); }
+.chart-legend { display: flex; gap: 14px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.68rem; color: var(--muted); font-weight: 500; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 110px; }
+.bar-group { flex: 1; display: flex; gap: 2px; align-items: flex-end; }
+.bar { flex: 1; border-radius: 3px 3px 0 0; cursor: pointer; min-width: 0; transition: opacity 0.2s; }
+.bar:hover { opacity: 0.75; }
+.bar.revenue { background: var(--accent); }
+.bar.prev { background: var(--border); }
+.chart-labels { display: flex; gap: 6px; margin-top: 6px; }
+.chart-label { flex: 1; text-align: center; font-size: 0.62rem; color: var(--muted); }
+
+/* LOGOS */
+.logos-bar { padding: 44px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--white); }
+.logos-label { text-align: center; font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
+.logos-row { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+.logo-item { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1rem; color: var(--muted); opacity: 0.5; letter-spacing: -0.02em; }
+
+/* STATS */
+.stats-section { padding: 80px 0; background: var(--accent); }
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+.stat-item { text-align: center; padding: 20px; border-right: 1px solid rgba(255,255,255,0.15); }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.03em; }
+.stat-desc { font-size: 0.82rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+/* FEATURES */
+.features { padding: 100px 0; }
+.features-header { text-align: center; margin-bottom: 60px; }
+.features-header .section-sub { margin: 0 auto; }
+.features-bento { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.feat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 32px;
+  transition: all var(--t); position: relative; overflow: hidden;
+}
+.feat-card:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light), var(--shadow-md); transform: translateY(-2px); }
+.feat-card.wide { grid-column: span 2; }
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 18px; flex-shrink: 0;
+}
+.feat-icon.blue { background: var(--accent-light); }
+.feat-icon.green { background: var(--green-light); }
+.feat-icon.yellow { background: #fff8e1; }
+.feat-icon.red { background: var(--red-light); }
+.feat-name { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
+.feat-desc { font-size: 0.875rem; color: var(--text-sec); line-height: 1.65; }
+.feat-visual { margin-top: 20px; }
+.mini-bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 48px; }
+.mini-bar { flex: 1; border-radius: 3px 3px 0 0; background: var(--border); }
+.mini-bar.active { background: var(--accent); }
+
+/* HOW IT WORKS */
+.how { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.how-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.steps { display: flex; flex-direction: column; }
+.step { display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); transition: all var(--t); cursor: default; }
+.step:first-child { padding-top: 0; }
+.step:last-child { border-bottom: none; padding-bottom: 0; }
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent-light); color: var(--accent);
+  font-weight: 800; font-size: 0.75rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px; transition: all var(--t);
+}
+.step:hover .step-num { background: var(--accent); color: #fff; }
+.step-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+.step-desc { font-size: 0.875rem; color: var(--text-sec); line-height: 1.65; }
+
+.funnel-visual { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+.funnel-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
+.funnel-rows { display: flex; flex-direction: column; gap: 10px; }
+.funnel-row { display: flex; align-items: center; gap: 12px; }
+.funnel-row-label { font-size: 0.72rem; color: var(--muted); width: 82px; text-align: right; flex-shrink: 0; }
+.funnel-track { flex: 1; background: var(--border); border-radius: 4px; height: 26px; overflow: hidden; }
+.funnel-fill {
+  height: 100%; border-radius: 4px;
+  display: flex; align-items: center; padding-left: 10px;
+  font-size: 0.7rem; font-weight: 700; color: var(--white); white-space: nowrap;
+}
+.funnel-fill.f1 { background: var(--accent); }
+.funnel-fill.f2 { background: #4d97ff; }
+.funnel-fill.f3 { background: #80b5ff; }
+.funnel-fill.f4 { background: #b3d2ff; color: var(--text-sec); }
+.funnel-pct { font-size: 0.7rem; color: var(--muted); width: 32px; text-align: right; font-weight: 600; }
+.insight-box { margin-top: 20px; background: var(--accent-light); border: 1px solid rgba(13,110,253,0.15); border-radius: 10px; padding: 14px 16px; }
+.insight-label { font-size: 0.68rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.insight-text { font-size: 0.8rem; color: var(--text-sec); line-height: 1.5; }
+
+/* PRICING */
+.pricing { padding: 100px 0; }
+.pricing-header { text-align: center; margin-bottom: 60px; }
+.pricing-header .section-sub { margin: 0 auto; }
+.billing-toggle {
+  display: inline-flex; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 4px; gap: 4px; margin-bottom: 48px;
+}
+.toggle-btn {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 600;
+  padding: 8px 20px; border-radius: 7px;
+  border: none; cursor: pointer;
+  background: transparent; color: var(--muted);
+  transition: all var(--t); position: relative;
+}
+.toggle-btn.active { background: var(--white); color: var(--text); box-shadow: var(--shadow-sm); }
+.save-badge {
+  position: absolute; top: -10px; right: -8px;
+  background: var(--green); color: #fff;
+  font-size: 0.55rem; font-weight: 800;
+  padding: 2px 6px; border-radius: 100px; letter-spacing: 0.05em;
+}
+.pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: start; }
+.price-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 18px; padding: 32px;
+  transition: all var(--t); position: relative;
+}
+.price-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.price-card.featured { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light), var(--shadow-md); }
+.popular-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: #fff;
+  font-size: 0.68rem; font-weight: 800;
+  padding: 4px 14px; border-radius: 100px; letter-spacing: 0.06em; white-space: nowrap;
+}
+.plan-tier { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.plan-price-row { display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px; }
+.price-dollar { font-size: 1rem; font-weight: 700; color: var(--text-sec); margin-top: 6px; }
+.price-amount { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--text); line-height: 1; }
+.price-period { font-size: 0.8rem; color: var(--muted); }
+.plan-annual-note { font-size: 0.72rem; color: var(--green); font-weight: 600; margin-bottom: 20px; min-height: 18px; }
+.price-divider { height: 1px; background: var(--border); margin: 20px 0; }
+.plan-desc { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 20px; line-height: 1.6; }
+.plan-feats { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 8px; }
+.plan-feats li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--text-sec); }
+.check {
+  width: 18px; height: 18px; background: var(--green-light); color: var(--green);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+.plan-btn {
+  display: block; text-align: center; padding: 13px;
+  border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  transition: all var(--t); border: 1.5px solid var(--border);
+  color: var(--text-sec); background: transparent; width: 100%;
+}
+.plan-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.plan-btn.primary-btn { background: var(--accent); color: #fff; border-color: transparent; box-shadow: 0 4px 14px rgba(13,110,253,0.3); }
+.plan-btn.primary-btn:hover { background: var(--accent-dark); box-shadow: 0 8px 20px rgba(13,110,253,0.35); transform: translateY(-1px); }
+
+/* TESTIMONIALS */
+.testimonials { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); }
+.testimonials-header { text-align: center; margin-bottom: 60px; }
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.testi-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+  transition: all var(--t);
+}
+.testi-card:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); transform: translateY(-2px); }
+.testi-stars { display: flex; gap: 2px; margin-bottom: 14px; }
+.star { color: var(--yellow); font-size: 14px; }
+.testi-quote { font-size: 0.9rem; color: var(--text); line-height: 1.72; margin-bottom: 20px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar { width: 40px; height: 40px; border-radius: 50%; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.875rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.testi-name { font-weight: 700; font-size: 0.875rem; }
+.testi-store { font-size: 0.75rem; color: var(--muted); }
+
+/* CTA */
+.cta-section { padding: 100px 0; background: var(--text); text-align: center; }
+.cta-section .tag { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.15); }
+.cta-section h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(2rem,4vw,3rem); font-weight: 800; color: #fff; letter-spacing: -0.025em; margin-bottom: 16px; }
+.cta-section p { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 36px; max-width: 440px; margin-left: auto; margin-right: auto; }
+.cta-note { font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-top: 14px; }
+
+/* FOOTER */
+footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 0; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.footer-logo { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1.1rem; color: #fff; }
+.footer-logo span { color: var(--accent); }
+.footer-links { display: flex; gap: 28px; list-style: none; flex-wrap: wrap; }
+.footer-links a { font-size: 0.82rem; color: rgba(255,255,255,0.45); transition: color var(--t); }
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+.footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 2000; display: none; align-items: center; justify-content: center;
+  padding: 24px; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white); border-radius: 20px; padding: 40px;
+  max-width: 460px; width: 100%;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.25);
+  position: relative; animation: modalIn 0.25s ease both;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; background: var(--surface);
+  border: none; border-radius: 50%; cursor: pointer;
+  font-size: 16px; color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--t);
+}
+.modal-close:hover { background: var(--border); color: var(--text); }
+.modal-icon { width: 56px; height: 56px; background: var(--green-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 20px; }
+.modal h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: 6px; }
+.modal-plan-text { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+.modal-sub { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 24px; line-height: 1.6; }
+.modal-input {
+  width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
+  border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem; color: var(--text); background: var(--bg);
+  outline: none; transition: border-color var(--t); margin-bottom: 10px;
+  display: block;
+}
+.modal-input:focus { border-color: var(--accent); }
+.modal-input::placeholder { color: var(--muted); }
+.modal-input.error { border-color: var(--red); }
+.modal-submit {
+  width: 100%; padding: 14px; background: var(--accent); color: #fff;
+  border: none; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all var(--t);
+}
+.modal-submit:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.modal-fine { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 10px; }
+.modal-success {
+  text-align: center; display: none;
+  flex-direction: column; align-items: center; padding: 20px 0;
+}
+.modal-success.show { display: flex; }
+.success-icon { width: 64px; height: 64px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
+.modal-success h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 10px; }
+.modal-success p { font-size: 0.9rem; color: var(--text-sec); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: repeat(2,1fr); }
+  .features-bento { grid-template-columns: 1fr 1fr; }
+  .feat-card.wide { grid-column: span 1; }
+  .how-inner { grid-template-columns: 1fr; gap: 40px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .stat-item:nth-child(2) { border-right: none; }
+  .stat-item:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.15); }
+  .logos-row { gap: 28px; }
+}
+@media (max-width: 700px) {
+  .nav-links, .nav-login, .nav-right .btn { display: none; }
+  .hamburger { display: flex; }
+  .hero { padding: 100px 0 60px; }
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas .btn { width: 100%; justify-content: center; }
+  .features-bento { grid-template-columns: 1fr; }
+  .feat-card.wide { grid-column: span 1; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-links { gap: 16px; }
+}
+@media (max-width: 500px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .hero h1 { font-size: 2.2rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-item { padding: 16px 12px; }
+  .stat-item:nth-child(3) { border-right: none; }
+  .funnel-row-label { display: none; }
+  .chart-bars { gap: 3px; }
+  .bar-group { gap: 1px; }
+}
 </style>
 </head>
 <body>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="trialModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div id="modalFormBody">
+      <div class="modal-icon">🚀</div>
+      <h3>Start your free trial</h3>
+      <div class="modal-plan-text" id="modalPlanLabel">Growth Plan — $79/mo after trial</div>
+      <div class="modal-sub">No credit card required. Full access for 14 days, cancel anytime.</div>
+      <input type="email" id="emailInput" class="modal-input" placeholder="your@email.com" autocomplete="email" />
+      <input type="text" class="modal-input" placeholder="Your Shopify store URL (e.g. mystore.myshopify.com)" />
+      <button class="modal-submit" id="modalSubmit">Get Started Free →</button>
+      <div class="modal-fine">By signing up you agree to our Terms &amp; Privacy Policy.</div>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="success-icon">✅</div>
+      <h3>You're in!</h3>
+      <p>Check your inbox for your magic login link. Your 14-day trial has started — no card needed.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features" class="mobile-nav-link">Features</a>
+  <a href="#how-it-works" class="mobile-nav-link">How it works</a>
+  <a href="#pricing" class="mobile-nav-link">Pricing</a>
+  <a href="#testimonials" class="mobile-nav-link">Reviews</a>
+  <a href="#" class="open-trial mobile-cta-link" data-plan="Starter Plan — $29/mo">Start Free Trial</a>
+</div>
+
 <!-- NAV -->
 <nav>
-  <div class="logo">
-    <div class="logo-icon">⚡</div>
-    Rev<span>Signal</span> Labs
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 14L7 8L10 11L14 5L16 7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="5" r="1.5" fill="white"/>
+          </svg>
+        </div>
+        Rev<span>Signal</span> Labs
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+      </ul>
+      <div class="nav-right">
+        <span class="nav-login open-trial" data-plan="Growth Plan — $79/mo">Log in</span>
+        <a href="#pricing" class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Get Started Free</a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
   </div>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#how-it-works">How it works</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#testimonials">Reviews</a></li>
-  </ul>
-  <a href="#pricing" class="nav-cta">Get Started Free</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-badge"><div class="live-dot"></div>Now live on Shopify App Marketplace</div>
+    <h1>Analytics that turns<br><em>data into revenue</em></h1>
+    <p class="hero-sub">Rev Signal Labs gives Shopify merchants a single source of truth — from attribution to cohort retention, built to scale with you.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary open-trial" data-plan="Growth Plan — $79/mo">Start Free 14-Day Trial</button>
+      <a href="#features" class="btn btn-outline">See all features →</a>
+    </div>
+    <p class="hero-note">No credit card required · Setup in 5 minutes · Cancel anytime</p>
 
-  <div class="hero-badge">
-    <div class="badge-dot"></div>
-    Now live on Shopify App Marketplace
-  </div>
-
-  <h1>
-    Analytics that<br>
-    <span class="highlight">grows your revenue</span>
-  </h1>
-
-  <p>Rev Signal Labs turns raw Shopify data into clear, actionable insights — so you spend less time in spreadsheets and more time scaling.</p>
-
-  <div class="hero-actions">
-    <a href="#pricing" class="btn-primary">Start Free Trial</a>
-    <a href="#features" class="btn-ghost">See all features →</a>
-  </div>
-
-  <div class="shopify-badge">
-    🛍️ Built exclusively for Shopify merchants
-  </div>
-
-  <div class="hero-visual">
-    <div class="dashboard-card">
-      <div class="dash-header">
-        <div class="dash-title">Revenue Overview · Store Dashboard</div>
-        <div class="dash-range">Last 30 days ▾</div>
+    <div class="hero-dashboard">
+      <div class="dash-wrap">
+        <div class="dash-top">
+          <div class="dash-store">
+            <div class="dash-store-icon">🛍️</div>
+            <div>
+              <div class="dash-store-name">Sage & Stone Skincare</div>
+              <div class="dash-store-sub">myshopify.com · Connected</div>
+            </div>
+          </div>
+          <div class="dash-period">Last 30 days ▾</div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">Total Revenue</div><div class="kpi-val">$84.2K</div><span class="kpi-delta up">↑ 23.4%</span></div>
+          <div class="kpi-card"><div class="kpi-label">Orders</div><div class="kpi-val">1,247</div><span class="kpi-delta up">↑ 11.2%</span></div>
+          <div class="kpi-card"><div class="kpi-label">Avg Order Value</div><div class="kpi-val">$67.5</div><span class="kpi-delta up">↑ 5.8%</span></div>
+          <div class="kpi-card"><div class="kpi-label">Return Rate</div><div class="kpi-val">3.1%</div><span class="kpi-delta down">↓ 1.2%</span></div>
+        </div>
+        <div class="chart-header">
+          <div class="chart-title">Revenue · Last 14 days vs Prior period</div>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>This period</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>Prior period</div>
+          </div>
+        </div>
+        <div class="chart-bars" id="heroChart"></div>
+        <div class="chart-labels" id="chartLabels"></div>
       </div>
-      <div class="kpi-row">
-        <div class="kpi">
-          <div class="kpi-label">Total Revenue</div>
-          <div class="kpi-value">$84.2K</div>
-          <div class="kpi-change">↑ 23.4%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Orders</div>
-          <div class="kpi-value">1,247</div>
-          <div class="kpi-change">↑ 11.2%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Avg Order Value</div>
-          <div class="kpi-value">$67.5</div>
-          <div class="kpi-change">↑ 5.8%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Return Rate</div>
-          <div class="kpi-value">3.1%</div>
-          <div class="kpi-change neg">↓ 1.2%</div>
-        </div>
-      </div>
-      <div class="chart-area" id="chart"></div>
     </div>
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats-section fade-in">
-  <div class="stat">
-    <div class="stat-value">2,400+</div>
-    <div class="stat-label">Shopify stores using RevSignal</div>
-  </div>
-  <div class="stat">
-    <div class="stat-value">$340M</div>
-    <div class="stat-label">Revenue tracked monthly</div>
-  </div>
-  <div class="stat">
-    <div class="stat-value">18%</div>
-    <div class="stat-label">Avg revenue lift reported</div>
-  </div>
-  <div class="stat">
-    <div class="stat-value">4.9★</div>
-    <div class="stat-label">Average Shopify app rating</div>
+<!-- LOGOS -->
+<div class="logos-bar">
+  <div class="container">
+    <div class="logos-label">Trusted by 2,400+ Shopify merchants worldwide</div>
+    <div class="logos-row">
+      <div class="logo-item">NovaBrew</div>
+      <div class="logo-item">Luxe Botanics</div>
+      <div class="logo-item">Peak Athletic</div>
+      <div class="logo-item">ZenThreads</div>
+      <div class="logo-item">OakAndIron</div>
+      <div class="logo-item">SolderKit</div>
+    </div>
   </div>
 </div>
 
+<!-- STATS -->
+<section class="stats-section reveal">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-num">2,400+</div><div class="stat-desc">Shopify stores active</div></div>
+      <div class="stat-item"><div class="stat-num">$340M</div><div class="stat-desc">Revenue tracked monthly</div></div>
+      <div class="stat-item"><div class="stat-num">18%</div><div class="stat-desc">Avg revenue lift reported</div></div>
+      <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-desc">Shopify app store rating</div></div>
+    </div>
+  </div>
+</section>
+
 <!-- FEATURES -->
 <section class="features" id="features">
-  <div class="features-header fade-in">
-    <div class="section-label">Features</div>
-    <div class="section-title">Every insight you need,<br>exactly when you need it</div>
-    <p class="section-sub">From marketing attribution to cohort retention — RevSignal gives you the full picture of your Shopify store's health.</p>
-  </div>
-
-  <div class="features-grid fade-in">
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <div class="feature-name">Revenue Attribution</div>
-      <div class="feature-desc">Understand which channels, campaigns, and products are actually driving revenue — down to the last cent.</div>
+  <div class="container">
+    <div class="features-header reveal">
+      <div class="tag">Features</div>
+      <div class="section-title">Every metric that matters,<br>in one place</div>
+      <p class="section-sub">From marketing attribution to cohort retention — built exclusively for Shopify merchants who want to grow smarter.</p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon blue">🔁</div>
-      <div class="feature-name">Customer Cohort Analysis</div>
-      <div class="feature-desc">Track how groups of customers behave over time. Identify which acquisition sources bring the most loyal buyers.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon pink">🎯</div>
-      <div class="feature-name">Marketing ROI Tracker</div>
-      <div class="feature-desc">Connect your ad spend from Meta, Google, TikTok, and Klaviyo in one dashboard. Stop guessing what's working.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <div class="feature-name">Real-Time Alerts</div>
-      <div class="feature-desc">Get Slack or email notifications when conversion drops, a product goes out of stock, or a new best-seller emerges.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon blue">🗺️</div>
-      <div class="feature-name">Customer Journey Maps</div>
-      <div class="feature-desc">Visualize the full path from first touch to checkout, across all sessions and devices, for every customer.</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon pink">📦</div>
-      <div class="feature-name">Inventory Intelligence</div>
-      <div class="feature-desc">Predict demand before stockouts happen. Our ML models analyze historical sales trends so you order smarter.</div>
+    <div class="features-bento reveal">
+      <div class="feat-card wide">
+        <div class="feat-icon blue">📊</div>
+        <div class="feat-name">Revenue Attribution</div>
+        <div class="feat-desc">Know exactly which channels, campaigns, and products drive revenue. Connect Meta, Google, TikTok, and Klaviyo in one view — no spreadsheets needed.</div>
+        <div class="feat-visual"><div class="mini-bar-chart" id="featChart"></div></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon green">🔁</div>
+        <div class="feat-name">Customer Cohort Analysis</div>
+        <div class="feat-desc">See how groups of buyers behave over time. Identify your most loyal acquisition sources and double down on what works.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon yellow">⚡</div>
+        <div class="feat-name">Real-Time Alerts</div>
+        <div class="feat-desc">Slack or email notifications when conversion drops, a product goes viral, or a stockout is approaching — before it costs you.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon blue">🗺️</div>
+        <div class="feat-name">Customer Journey Mapping</div>
+        <div class="feat-desc">Visualize the full path from first touch to checkout across every device and session. Find drop-offs and fix them fast.</div>
+      </div>
+      <div class="feat-card wide">
+        <div class="feat-icon red">📦</div>
+        <div class="feat-name">Inventory Intelligence</div>
+        <div class="feat-desc">ML models predict demand before stockouts happen. Order smarter, reduce overstock, and keep your bestsellers in stock — always.</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="how-it-works" id="how-it-works">
-  <div class="hiw-inner">
-    <div class="fade-in">
-      <div class="section-label">How it works</div>
-      <div class="section-title">Up and running in<br>under 5 minutes</div>
-
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div>
-            <div class="step-title">Install from Shopify App Store</div>
-            <div class="step-desc">One click install. No developer required. RevSignal connects securely to your store via Shopify's official API.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <div>
-            <div class="step-title">Connect your marketing channels</div>
-            <div class="step-desc">Link Meta Ads, Google Ads, Klaviyo, TikTok, and more in 60 seconds. We pull the data, you keep control.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <div>
-            <div class="step-title">Watch insights appear instantly</div>
-            <div class="step-desc">Your custom dashboard populates with real-time data. Our AI highlights the top opportunities and risks.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">04</div>
-          <div>
-            <div class="step-title">Act on recommendations</div>
-            <div class="step-desc">Get weekly AI-generated growth reports with clear next steps. No analytics degree required.</div>
-          </div>
+<section class="how" id="how-it-works">
+  <div class="container">
+    <div class="how-inner">
+      <div class="reveal">
+        <div class="tag">How it works</div>
+        <div class="section-title">Live in under<br>5 minutes</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div><div class="step-title">Install from Shopify App Store</div><div class="step-desc">One-click install. No developer needed. RevSignal connects securely via Shopify's official API.</div></div></div>
+          <div class="step"><div class="step-num">2</div><div><div class="step-title">Connect your marketing channels</div><div class="step-desc">Link Meta, Google, Klaviyo, TikTok and more in 60 seconds. We pull the data — you keep full control.</div></div></div>
+          <div class="step"><div class="step-num">3</div><div><div class="step-title">Insights appear instantly</div><div class="step-desc">Your dashboard populates with real-time data. Our AI surfaces top opportunities and risks automatically.</div></div></div>
+          <div class="step"><div class="step-num">4</div><div><div class="step-title">Act on AI recommendations</div><div class="step-desc">Weekly growth reports with clear next steps. No analytics degree required — built for founders.</div></div></div>
         </div>
       </div>
-    </div>
-
-    <div class="hiw-visual fade-in">
-      <div class="mini-chart-title">Checkout Funnel · This Week</div>
-      <div class="funnel">
-        <div class="funnel-step">
-          <div class="funnel-label">Product view</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar primary" style="width:100%; background: linear-gradient(90deg, rgba(0,229,160,0.5), rgba(0,229,160,0.2));">12,480</div>
-          </div>
-          <div class="funnel-pct">100%</div>
+      <div class="funnel-visual reveal">
+        <div class="funnel-title">Checkout Funnel · This Week</div>
+        <div class="funnel-rows">
+          <div class="funnel-row"><div class="funnel-row-label">Product view</div><div class="funnel-track"><div class="funnel-fill f1" style="width:100%">12,480</div></div><div class="funnel-pct">100%</div></div>
+          <div class="funnel-row"><div class="funnel-row-label">Add to cart</div><div class="funnel-track"><div class="funnel-fill f2" style="width:58%">7,238</div></div><div class="funnel-pct">58%</div></div>
+          <div class="funnel-row"><div class="funnel-row-label">Checkout</div><div class="funnel-track"><div class="funnel-fill f3" style="width:38%">4,742</div></div><div class="funnel-pct">38%</div></div>
+          <div class="funnel-row"><div class="funnel-row-label">Purchased</div><div class="funnel-track"><div class="funnel-fill f4" style="width:24%">2,995</div></div><div class="funnel-pct">24%</div></div>
         </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Add to cart</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:58%; background: linear-gradient(90deg, rgba(0,229,160,0.45), rgba(0,229,160,0.15));">7,238</div>
-          </div>
-          <div class="funnel-pct">58%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Checkout</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:38%; background: linear-gradient(90deg, rgba(61,127,255,0.5), rgba(61,127,255,0.2));">4,742</div>
-          </div>
-          <div class="funnel-pct">38%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Purchased</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:24%; background: linear-gradient(90deg, rgba(61,127,255,0.45), rgba(61,127,255,0.15));">2,995</div>
-          </div>
-          <div class="funnel-pct">24%</div>
-        </div>
-      </div>
-
-      <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);">
-        <div style="font-size: 0.75rem; color: var(--muted); margin-bottom: 10px;">Top drop-off opportunity</div>
-        <div style="background: rgba(0,229,160,0.06); border: 1px solid rgba(0,229,160,0.15); border-radius: 10px; padding: 14px;">
-          <div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--accent); margin-bottom: 4px;">⚡ Cart → Checkout gap</div>
-          <div style="font-size: 0.78rem; color: var(--muted);">Adding a cart reminder email could recover ~$8,200/mo based on your AOV.</div>
+        <div class="insight-box">
+          <div class="insight-label">💡 AI Opportunity</div>
+          <div class="insight-text">Adding a cart abandonment email sequence could recover ~$8,200/mo based on your current AOV and cart drop-off rate.</div>
         </div>
       </div>
     </div>
@@ -1117,106 +711,104 @@
 
 <!-- PRICING -->
 <section class="pricing" id="pricing">
-  <div class="pricing-header fade-in">
-    <div class="section-label">Pricing</div>
-    <div class="section-title">Simple, transparent pricing</div>
-    <p class="section-sub">14-day free trial on all plans. No credit card required. Cancel anytime.</p>
-  </div>
-
-  <div class="pricing-grid fade-in">
-    <div class="pricing-card">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">$29</div>
-      <div class="plan-period">per month</div>
-      <div class="plan-divider"></div>
-      <ul class="plan-features">
-        <li>Up to $50K monthly revenue</li>
-        <li>Core revenue dashboard</li>
-        <li>1 marketing channel</li>
-        <li>30-day data history</li>
-        <li>Email alerts</li>
-        <li>Email support</li>
-      </ul>
-      <a href="#" class="plan-btn">Start Free Trial</a>
+  <div class="container">
+    <div class="pricing-header reveal">
+      <div class="tag">Pricing</div>
+      <div class="section-title">Simple, honest pricing</div>
+      <p class="section-sub">14-day free trial on every plan. No credit card. No surprises. Cancel anytime.</p>
     </div>
-
-    <div class="pricing-card featured">
-      <div class="featured-badge">MOST POPULAR</div>
-      <div class="plan-name">Growth</div>
-      <div class="plan-price">$79</div>
-      <div class="plan-period">per month</div>
-      <div class="plan-divider"></div>
-      <ul class="plan-features">
-        <li>Up to $500K monthly revenue</li>
-        <li>Full analytics suite</li>
-        <li>All marketing channels</li>
-        <li>1-year data history</li>
-        <li>AI growth recommendations</li>
-        <li>Slack + email alerts</li>
-        <li>Priority support</li>
-      </ul>
-      <a href="#" class="plan-btn featured-btn">Start Free Trial</a>
+    <div style="display:flex;justify-content:center" class="reveal">
+      <div class="billing-toggle">
+        <button class="toggle-btn active" id="monthlyBtn">Monthly</button>
+        <button class="toggle-btn" id="annualBtn">Annual<span class="save-badge">2 MO FREE</span></button>
+      </div>
     </div>
-
-    <div class="pricing-card">
-      <div class="plan-name">Scale</div>
-      <div class="plan-price">$199</div>
-      <div class="plan-period">per month</div>
-      <div class="plan-divider"></div>
-      <ul class="plan-features">
-        <li>Unlimited revenue</li>
-        <li>Multi-store management</li>
-        <li>Custom dashboards</li>
-        <li>Unlimited data history</li>
-        <li>Advanced cohort analysis</li>
-        <li>API access</li>
-        <li>Dedicated account manager</li>
-      </ul>
-      <a href="#" class="plan-btn">Start Free Trial</a>
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <div class="plan-tier">Starter</div>
+        <div class="plan-price-row"><span class="price-dollar">$</span><span class="price-amount" data-monthly="29" data-annual="24">29</span><span class="price-period">/mo</span></div>
+        <div class="plan-annual-note" id="starterNote">&nbsp;</div>
+        <div class="price-divider"></div>
+        <div class="plan-desc">Perfect for stores just getting started with analytics.</div>
+        <ul class="plan-feats">
+          <li><span class="check">✓</span>Up to $50K monthly revenue</li>
+          <li><span class="check">✓</span>Core revenue dashboard</li>
+          <li><span class="check">✓</span>1 marketing channel</li>
+          <li><span class="check">✓</span>30-day data history</li>
+          <li><span class="check">✓</span>Email alerts</li>
+          <li><span class="check">✓</span>Email support</li>
+        </ul>
+        <button class="plan-btn open-trial" data-plan="Starter Plan — $29/mo">Start Free Trial</button>
+      </div>
+      <div class="price-card featured">
+        <div class="popular-badge">MOST POPULAR</div>
+        <div class="plan-tier">Growth</div>
+        <div class="plan-price-row"><span class="price-dollar">$</span><span class="price-amount" data-monthly="79" data-annual="66">79</span><span class="price-period">/mo</span></div>
+        <div class="plan-annual-note" id="growthNote">&nbsp;</div>
+        <div class="price-divider"></div>
+        <div class="plan-desc">For growing stores ready to scale their analytics.</div>
+        <ul class="plan-feats">
+          <li><span class="check">✓</span>Up to $500K monthly revenue</li>
+          <li><span class="check">✓</span>Full analytics suite</li>
+          <li><span class="check">✓</span>All marketing channels</li>
+          <li><span class="check">✓</span>1-year data history</li>
+          <li><span class="check">✓</span>AI growth recommendations</li>
+          <li><span class="check">✓</span>Slack + email alerts</li>
+          <li><span class="check">✓</span>Priority support</li>
+        </ul>
+        <button class="plan-btn primary-btn open-trial" data-plan="Growth Plan — $79/mo">Start Free Trial</button>
+      </div>
+      <div class="price-card">
+        <div class="plan-tier">Scale</div>
+        <div class="plan-price-row"><span class="price-dollar">$</span><span class="price-amount" data-monthly="199" data-annual="166">199</span><span class="price-period">/mo</span></div>
+        <div class="plan-annual-note" id="scaleNote">&nbsp;</div>
+        <div class="price-divider"></div>
+        <div class="plan-desc">For high-volume merchants who need full power and flexibility.</div>
+        <ul class="plan-feats">
+          <li><span class="check">✓</span>Unlimited revenue</li>
+          <li><span class="check">✓</span>Multi-store management</li>
+          <li><span class="check">✓</span>Custom dashboards</li>
+          <li><span class="check">✓</span>Unlimited data history</li>
+          <li><span class="check">✓</span>Advanced cohort analysis</li>
+          <li><span class="check">✓</span>API access</li>
+          <li><span class="check">✓</span>Dedicated account manager</li>
+        </ul>
+        <button class="plan-btn open-trial" data-plan="Scale Plan — $199/mo">Start Free Trial</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section class="testimonials" id="testimonials">
-  <div class="testimonials-header fade-in">
-    <div class="section-label">Testimonials</div>
-    <div class="section-title">Merchants love RevSignal</div>
-  </div>
-
-  <div class="testimonials-grid fade-in">
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"RevSignal replaced three separate tools for us. The cohort analysis alone showed us that Instagram ads bring customers with 40% higher LTV. Game changer."</p>
-      <div class="testimonial-author">
-        <div class="author-avatar" style="background: rgba(0,229,160,0.12); color: var(--accent);">SR</div>
-        <div>
-          <div class="author-name">Sarah Rowe</div>
-          <div class="author-store">🛍️ Sage & Stone Skincare</div>
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <div class="tag">Reviews</div>
+      <div class="section-title">Merchants love RevSignal</div>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testi-quote">"RevSignal replaced three separate tools for us. The cohort analysis alone showed us that Instagram ads bring customers with 40% higher LTV. Total game changer."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#e0faf3;color:#00c48c;">SR</div>
+          <div><div class="testi-name">Sarah Rowe</div><div class="testi-store">🛍️ Sage & Stone Skincare</div></div>
         </div>
       </div>
-    </div>
-
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"Went from spending 2 hours every Monday pulling reports to a 10-minute review. The AI recommendations helped us cut wasted ad spend by $4K a month."</p>
-      <div class="testimonial-author">
-        <div class="author-avatar" style="background: rgba(61,127,255,0.12); color: var(--accent2);">JL</div>
-        <div>
-          <div class="author-name">James Liu</div>
-          <div class="author-store">🛍️ Peak Athletic Co.</div>
+      <div class="testi-card">
+        <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testi-quote">"Went from spending 2 hours every Monday pulling reports to a 10-minute review. The AI recommendations helped us cut wasted ad spend by $4K a month."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#e8f0fe;color:#0d6efd;">JL</div>
+          <div><div class="testi-name">James Liu</div><div class="testi-store">🛍️ Peak Athletic Co.</div></div>
         </div>
       </div>
-    </div>
-
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"The inventory forecasting is scarily accurate. We haven't had a stockout in 6 months since switching. Our 3PL loves us now."</p>
-      <div class="testimonial-author">
-        <div class="author-avatar" style="background: rgba(255,94,125,0.12); color: var(--accent3);">AM</div>
-        <div>
-          <div class="author-name">Amara Mensah</div>
-          <div class="author-store">🛍️ Afro Heritage Collective</div>
+      <div class="testi-card">
+        <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testi-quote">"The inventory forecasting is scarily accurate. We haven't had a stockout in 6 months since switching. Our 3PL warehouse team loves us now."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#fff0f3;color:#ff4d6a;">AM</div>
+          <div><div class="testi-name">Amara Mensah</div><div class="testi-store">🛍️ Afro Heritage Collective</div></div>
         </div>
       </div>
     </div>
@@ -1225,52 +817,138 @@
 
 <!-- CTA -->
 <section class="cta-section">
-  <div class="cta-glow"></div>
-  <div class="section-label" style="justify-content: center; display: flex;">Get started</div>
-  <h2>Ready to <span style="background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">rev up</span> your store?</h2>
-  <p>Join 2,400+ Shopify merchants already growing smarter with RevSignal Labs.</p>
-  <a href="#pricing" class="btn-primary" style="font-size: 1rem; padding: 16px 40px;">Start Your Free 14-Day Trial</a>
+  <div class="container">
+    <div class="tag">Get started today</div>
+    <h2>Ready to grow smarter?</h2>
+    <p>Join 2,400+ Shopify merchants who use RevSignal Labs to make faster, better decisions.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-white open-trial" data-plan="Growth Plan — $79/mo">Start Your Free Trial</button>
+      <a href="#features" class="btn" style="color:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.2);">See all features</a>
+    </div>
+    <p class="cta-note">No credit card · 14-day trial · Cancel anytime</p>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Rev<span>Signal</span> Labs</div>
-  <ul class="footer-links">
-    <li><a href="#">Features</a></li>
-    <li><a href="#">Pricing</a></li>
-    <li><a href="#">Blog</a></li>
-    <li><a href="#">Privacy</a></li>
-    <li><a href="#">Terms</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-  <div class="footer-copy">© 2025 RevSignal Labs. All rights reserved.</div>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Rev<span>Signal</span> Labs</div>
+      <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <div class="footer-copy">© 2025 RevSignal Labs. All rights reserved.</div>
+    </div>
+  </div>
 </footer>
 
 <script>
-  // Generate chart bars
-  const chart = document.getElementById('chart');
-  const days = ['M','T','W','T','F','S','S','M','T','W','T','F','S','S'];
-  const heights = [55,72,60,88,95,78,45,68,82,91,75,99,70,85];
-  const types = ['secondary','secondary','secondary','secondary','secondary','secondary','secondary','primary','primary','primary','primary','primary','primary','primary'];
+/* HERO CHART */
+const chartEl = document.getElementById('heroChart');
+const labelsEl = document.getElementById('chartLabels');
+const days = ['M','T','W','T','F','S','S','M','T','W','T','F','S','S'];
+const curr = [55,72,60,88,95,78,45,68,82,91,75,99,70,85];
+const prev = [45,60,55,70,80,65,40,55,70,78,68,85,60,75];
+days.forEach((d, i) => {
+  const g = document.createElement('div'); g.className = 'bar-group';
+  const b1 = document.createElement('div'); b1.className = 'bar prev'; b1.style.height = prev[i]+'%'; b1.title = 'Prior: $'+(prev[i]*850).toLocaleString();
+  const b2 = document.createElement('div'); b2.className = 'bar revenue'; b2.style.height = curr[i]+'%'; b2.title = 'Current: $'+(curr[i]*900).toLocaleString();
+  g.appendChild(b1); g.appendChild(b2); chartEl.appendChild(g);
+  const l = document.createElement('div'); l.className = 'chart-label'; l.textContent = d; labelsEl.appendChild(l);
+});
 
-  days.forEach((d, i) => {
-    const bar = document.createElement('div');
-    bar.className = `chart-bar ${types[i]}`;
-    bar.style.height = heights[i] + '%';
-    bar.title = `$${(heights[i] * 900).toLocaleString()}`;
-    chart.appendChild(bar);
+/* FEATURE CHART */
+const featData = [40,65,30,90,55,75,45,80];
+const featColors = ['var(--accent)','#4d97ff','#ff6b6b','var(--green)'];
+const fc = document.getElementById('featChart');
+if(fc) featData.forEach((h,i) => {
+  const b = document.createElement('div'); b.className = 'mini-bar';
+  b.style.height = h+'%';
+  b.style.background = h > 60 ? featColors[i%4] : 'var(--border)';
+  fc.appendChild(b);
+});
+
+/* HAMBURGER */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', () => {
+  hamburger.classList.remove('open'); mobileMenu.classList.remove('open');
+}));
+
+/* MODAL */
+const overlay = document.getElementById('trialModal');
+const modalClose = document.getElementById('modalClose');
+const modalSubmit = document.getElementById('modalSubmit');
+const modalPlanLabel = document.getElementById('modalPlanLabel');
+const modalFormBody = document.getElementById('modalFormBody');
+const modalSuccess = document.getElementById('modalSuccess');
+
+function openModal(plan) {
+  modalPlanLabel.textContent = plan || 'Growth Plan — $79/mo after trial';
+  modalFormBody.style.display = ''; modalSuccess.classList.remove('show');
+  overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+  document.getElementById('emailInput').value = '';
+  document.getElementById('emailInput').classList.remove('error');
+  setTimeout(() => document.getElementById('emailInput').focus(), 100);
+}
+function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+document.querySelectorAll('.open-trial').forEach(el => el.addEventListener('click', e => {
+  e.preventDefault();
+  openModal(el.dataset.plan);
+  hamburger.classList.remove('open'); mobileMenu.classList.remove('open');
+}));
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+modalSubmit.addEventListener('click', () => {
+  const email = document.getElementById('emailInput');
+  if(!email.value.trim() || !email.value.includes('@')) {
+    email.classList.add('error'); email.focus(); return;
+  }
+  email.classList.remove('error');
+  modalFormBody.style.display = 'none'; modalSuccess.classList.add('show');
+  setTimeout(closeModal, 3000);
+});
+
+/* PRICING TOGGLE */
+const monthlyBtn = document.getElementById('monthlyBtn');
+const annualBtn = document.getElementById('annualBtn');
+let isAnnual = false;
+const annualNotes = { starterNote: 'Save $60/yr — billed $288 annually', growthNote: 'Save $156/yr — billed $792 annually', scaleNote: 'Save $396/yr — billed $1,992 annually' };
+
+function updatePrices() {
+  document.querySelectorAll('.price-amount').forEach(el => { el.textContent = isAnnual ? el.dataset.annual : el.dataset.monthly; });
+  Object.entries(annualNotes).forEach(([id, note]) => {
+    const el = document.getElementById(id); if(el) el.textContent = isAnnual ? note : '\u00a0';
   });
+}
+monthlyBtn.addEventListener('click', () => { isAnnual=false; monthlyBtn.classList.add('active'); annualBtn.classList.remove('active'); updatePrices(); });
+annualBtn.addEventListener('click', () => { isAnnual=true; annualBtn.classList.add('active'); monthlyBtn.classList.remove('active'); updatePrices(); });
 
-  // Scroll fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.15 });
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href'); if(href === '#') return;
+    const t = document.querySelector(href);
+    if(t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'}); hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }
+  });
+});
 
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+/* SCROLL REVEAL */
+const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
