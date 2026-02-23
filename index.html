@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rev Signal Labs – Shopify Analytics That Converts</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Rev Signal Labs – Stop COD Fraud Before It Ships</title>
+<meta name="description" content="Rev Signal Labs automatically verifies Cash on Delivery orders via WhatsApp & SMS — cutting RTO losses and protecting your Shopify store revenue.">
+
+<!-- Favicon as inline SVG data URI -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d6efd'/%3E%3Cpath d='M7 20 L13 13 L17 17 L23 9' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M20 9 H23 V12' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f7f8fc;
@@ -21,6 +26,8 @@
   --green-light: #e0faf3;
   --red: #ff4d6a;
   --red-light: #fff0f3;
+  --orange: #f97316;
+  --orange-light: #fff7ed;
   --yellow: #ffb703;
   --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
@@ -71,6 +78,8 @@ a { text-decoration: none; color: inherit; }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 .btn-white { background: #fff; color: var(--accent); box-shadow: var(--shadow-md); }
 .btn-white:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.btn-green { background: var(--green); color: #fff; box-shadow: 0 4px 14px rgba(0,196,140,0.3); }
+.btn-green:hover { background: #00a876; transform: translateY(-1px); }
 
 /* NAV */
 nav {
@@ -102,9 +111,6 @@ nav {
 }
 .nav-links a:hover { color: var(--text); background: var(--surface); }
 .nav-right { display: flex; align-items: center; gap: 10px; }
-.nav-login { font-size: 0.875rem; font-weight: 600; color: var(--text-sec); transition: color var(--t); cursor: pointer; }
-.nav-login:hover { color: var(--text); }
-
 .hamburger {
   display: none; flex-direction: column; gap: 5px;
   cursor: pointer; padding: 6px; border-radius: 6px;
@@ -135,7 +141,6 @@ nav {
   font-weight: 700 !important; padding: 14px !important;
   border-radius: 10px !important;
 }
-.mobile-cta-link:hover { background: var(--accent-dark) !important; }
 
 /* HERO */
 .hero { padding: 140px 0 80px; text-align: center; }
@@ -156,14 +161,15 @@ nav {
 }
 .hero h1 {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
   font-weight: 800; line-height: 1.1;
-  letter-spacing: -0.03em; max-width: 800px;
+  letter-spacing: -0.03em; max-width: 820px;
   margin: 0 auto 20px; animation: fadeUp 0.5s 0.08s ease both;
 }
 .hero h1 em { font-style: normal; color: var(--accent); }
+.hero h1 .strike { text-decoration: line-through; color: var(--muted); }
 .hero-sub {
-  font-size: 1.1rem; color: var(--text-sec); max-width: 500px;
+  font-size: 1.1rem; color: var(--text-sec); max-width: 520px;
   margin: 0 auto 40px; animation: fadeUp 0.5s 0.16s ease both;
 }
 .hero-ctas {
@@ -173,13 +179,13 @@ nav {
 }
 .hero-note { font-size: 0.78rem; color: var(--muted); animation: fadeUp 0.5s 0.32s ease both; }
 
-/* DASHBOARD */
+/* HERO DASHBOARD */
 .hero-dashboard { margin-top: 64px; animation: fadeUp 0.6s 0.4s ease both; }
 .dash-wrap {
   background: var(--white); border: 1px solid var(--border);
   border-radius: 20px; padding: 24px;
   box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.8) inset;
-  overflow: hidden;
+  text-align: left;
 }
 .dash-top {
   display: flex; align-items: center; justify-content: space-between;
@@ -197,7 +203,7 @@ nav {
   display: flex; align-items: center; gap: 6px;
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 8px; padding: 6px 14px;
-  font-size: 0.78rem; font-weight: 600; color: var(--text-sec); cursor: pointer;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-sec);
 }
 .kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
 .kpi-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
@@ -213,19 +219,26 @@ nav {
 }
 .kpi-delta.up { background: var(--green-light); color: var(--green); }
 .kpi-delta.down { background: var(--red-light); color: var(--red); }
-.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.chart-title { font-size: 0.8rem; font-weight: 700; color: var(--text-sec); }
-.chart-legend { display: flex; gap: 14px; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.68rem; color: var(--muted); font-weight: 500; }
-.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-.chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 110px; }
-.bar-group { flex: 1; display: flex; gap: 2px; align-items: flex-end; }
-.bar { flex: 1; border-radius: 3px 3px 0 0; cursor: pointer; min-width: 0; transition: opacity 0.2s; }
-.bar:hover { opacity: 0.75; }
-.bar.revenue { background: var(--accent); }
-.bar.prev { background: var(--border); }
-.chart-labels { display: flex; gap: 6px; margin-top: 6px; }
-.chart-label { flex: 1; text-align: center; font-size: 0.62rem; color: var(--muted); }
+
+/* Verification timeline in dash */
+.verif-timeline { margin-top: 4px; }
+.verif-timeline-title { font-size: 0.78rem; font-weight: 700; color: var(--text-sec); margin-bottom: 12px; }
+.verif-rows { display: flex; flex-direction: column; gap: 8px; }
+.verif-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+}
+.verif-order { font-size: 0.78rem; font-weight: 700; color: var(--text); min-width: 80px; }
+.verif-cust { font-size: 0.75rem; color: var(--text-sec); flex: 1; }
+.verif-amt { font-size: 0.78rem; font-weight: 700; color: var(--text); min-width: 56px; text-align: right; }
+.verif-status {
+  font-size: 0.68rem; font-weight: 700; padding: 3px 8px;
+  border-radius: 100px; white-space: nowrap;
+}
+.verif-status.confirmed { background: var(--green-light); color: var(--green); }
+.verif-status.pending { background: #fff8e1; color: #b45309; }
+.verif-status.cancelled { background: var(--red-light); color: var(--red); }
 
 /* LOGOS */
 .logos-bar { padding: 44px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--white); }
@@ -240,6 +253,23 @@ nav {
 .stat-item:last-child { border-right: none; }
 .stat-num { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.03em; }
 .stat-desc { font-size: 0.82rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+/* PROBLEM SECTION */
+.problem { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); }
+.problem-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.problem-visual { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+.rto-bar-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
+.rto-bars { display: flex; flex-direction: column; gap: 14px; }
+.rto-row { display: flex; flex-direction: column; gap: 4px; }
+.rto-row-header { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-sec); font-weight: 600; }
+.rto-track { height: 10px; background: var(--border); border-radius: 10px; overflow: hidden; }
+.rto-fill { height: 100%; border-radius: 10px; }
+.rto-fill.bad { background: var(--red); }
+.rto-fill.good { background: var(--green); }
+.rto-fill.neutral { background: var(--accent); }
+.cost-box { margin-top: 20px; background: var(--red-light); border: 1px solid rgba(255,77,106,0.2); border-radius: 10px; padding: 16px; }
+.cost-box-label { font-size: 0.68rem; color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.cost-box-text { font-size: 0.82rem; color: var(--text-sec); line-height: 1.5; }
 
 /* FEATURES */
 .features { padding: 100px 0; }
@@ -256,24 +286,38 @@ nav {
 .feat-icon {
   width: 44px; height: 44px; border-radius: 11px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; margin-bottom: 18px; flex-shrink: 0;
+  font-size: 20px; margin-bottom: 18px;
 }
 .feat-icon.blue { background: var(--accent-light); }
 .feat-icon.green { background: var(--green-light); }
-.feat-icon.yellow { background: #fff8e1; }
+.feat-icon.orange { background: var(--orange-light); }
 .feat-icon.red { background: var(--red-light); }
 .feat-name { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
 .feat-desc { font-size: 0.875rem; color: var(--text-sec); line-height: 1.65; }
-.feat-visual { margin-top: 20px; }
-.mini-bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 48px; }
-.mini-bar { flex: 1; border-radius: 3px 3px 0 0; background: var(--border); }
-.mini-bar.active { background: var(--accent); }
+
+/* WHATSAPP MOCKUP */
+.wa-mockup {
+  margin-top: 20px; background: #e8f5e9;
+  border-radius: 12px; padding: 16px; font-size: 0.78rem;
+}
+.wa-bubble {
+  background: #fff; border-radius: 0 10px 10px 10px;
+  padding: 10px 14px; display: inline-block;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); max-width: 100%;
+  line-height: 1.5; color: var(--text);
+}
+.wa-time { font-size: 0.65rem; color: var(--muted); margin-top: 4px; text-align: right; }
+.wa-reply {
+  background: #dcf8c6; border-radius: 10px 0 10px 10px;
+  padding: 8px 12px; margin-top: 8px; margin-left: auto;
+  display: table; font-weight: 700; font-size: 0.75rem; color: #1a5c2a;
+}
 
 /* HOW IT WORKS */
 .how { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .how-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .steps { display: flex; flex-direction: column; }
-.step { display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); transition: all var(--t); cursor: default; }
+.step { display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); transition: all var(--t); }
 .step:first-child { padding-top: 0; }
 .step:last-child { border-bottom: none; padding-bottom: 0; }
 .step-num {
@@ -287,50 +331,29 @@ nav {
 .step-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
 .step-desc { font-size: 0.875rem; color: var(--text-sec); line-height: 1.65; }
 
-.funnel-visual { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
-.funnel-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
-.funnel-rows { display: flex; flex-direction: column; gap: 10px; }
-.funnel-row { display: flex; align-items: center; gap: 12px; }
-.funnel-row-label { font-size: 0.72rem; color: var(--muted); width: 82px; text-align: right; flex-shrink: 0; }
-.funnel-track { flex: 1; background: var(--border); border-radius: 4px; height: 26px; overflow: hidden; }
-.funnel-fill {
-  height: 100%; border-radius: 4px;
-  display: flex; align-items: center; padding-left: 10px;
-  font-size: 0.7rem; font-weight: 700; color: var(--white); white-space: nowrap;
+.flow-visual { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+.flow-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
+.flow-steps { display: flex; flex-direction: column; gap: 0; }
+.flow-step {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 14px 0; border-bottom: 1px dashed var(--border);
 }
-.funnel-fill.f1 { background: var(--accent); }
-.funnel-fill.f2 { background: #4d97ff; }
-.funnel-fill.f3 { background: #80b5ff; }
-.funnel-fill.f4 { background: #b3d2ff; color: var(--text-sec); }
-.funnel-pct { font-size: 0.7rem; color: var(--muted); width: 32px; text-align: right; font-weight: 600; }
-.insight-box { margin-top: 20px; background: var(--accent-light); border: 1px solid rgba(13,110,253,0.15); border-radius: 10px; padding: 14px 16px; }
-.insight-label { font-size: 0.68rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
-.insight-text { font-size: 0.8rem; color: var(--text-sec); line-height: 1.5; }
+.flow-step:last-child { border-bottom: none; }
+.flow-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.flow-icon.blue { background: var(--accent-light); }
+.flow-icon.green { background: var(--green-light); }
+.flow-icon.orange { background: var(--orange-light); }
+.flow-icon.red { background: var(--red-light); }
+.flow-step-title { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.flow-step-desc { font-size: 0.75rem; color: var(--muted); }
+.flow-saving { margin-top: 20px; background: var(--green-light); border: 1px solid rgba(0,196,140,0.2); border-radius: 10px; padding: 14px 16px; }
+.flow-saving-label { font-size: 0.68rem; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.flow-saving-text { font-size: 0.8rem; color: var(--text-sec); }
 
 /* PRICING */
 .pricing { padding: 100px 0; }
 .pricing-header { text-align: center; margin-bottom: 60px; }
 .pricing-header .section-sub { margin: 0 auto; }
-.billing-toggle {
-  display: inline-flex; background: var(--surface);
-  border: 1px solid var(--border); border-radius: 10px;
-  padding: 4px; gap: 4px; margin-bottom: 48px;
-}
-.toggle-btn {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.85rem; font-weight: 600;
-  padding: 8px 20px; border-radius: 7px;
-  border: none; cursor: pointer;
-  background: transparent; color: var(--muted);
-  transition: all var(--t); position: relative;
-}
-.toggle-btn.active { background: var(--white); color: var(--text); box-shadow: var(--shadow-sm); }
-.save-badge {
-  position: absolute; top: -10px; right: -8px;
-  background: var(--green); color: #fff;
-  font-size: 0.55rem; font-weight: 800;
-  padding: 2px 6px; border-radius: 100px; letter-spacing: 0.05em;
-}
 .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: start; }
 .price-card {
   background: var(--white); border: 1.5px solid var(--border);
@@ -350,7 +373,7 @@ nav {
 .price-dollar { font-size: 1rem; font-weight: 700; color: var(--text-sec); margin-top: 6px; }
 .price-amount { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--text); line-height: 1; }
 .price-period { font-size: 0.8rem; color: var(--muted); }
-.plan-annual-note { font-size: 0.72rem; color: var(--green); font-weight: 600; margin-bottom: 20px; min-height: 18px; }
+.plan-orders { font-size: 0.72rem; color: var(--green); font-weight: 600; margin-bottom: 20px; min-height: 18px; }
 .price-divider { height: 1px; background: var(--border); margin: 20px 0; }
 .plan-desc { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 20px; line-height: 1.6; }
 .plan-feats { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 8px; }
@@ -388,6 +411,26 @@ nav {
 .testi-avatar { width: 40px; height: 40px; border-radius: 50%; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.875rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .testi-name { font-weight: 700; font-size: 0.875rem; }
 .testi-store { font-size: 0.75rem; color: var(--muted); }
+
+/* FAQ */
+.faq { padding: 100px 0; }
+.faq-header { text-align: center; margin-bottom: 60px; }
+.faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); overflow: hidden;
+}
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 22px; cursor: pointer;
+  font-weight: 600; font-size: 0.9rem; transition: background var(--t);
+  gap: 16px;
+}
+.faq-q:hover { background: var(--surface); }
+.faq-icon { font-size: 1.2rem; color: var(--muted); flex-shrink: 0; transition: transform 0.3s ease; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a { display: none; padding: 0 22px 18px; font-size: 0.875rem; color: var(--text-sec); line-height: 1.7; }
+.faq-item.open .faq-a { display: block; }
 
 /* CTA */
 .cta-section { padding: 100px 0; background: var(--text); text-align: center; }
@@ -440,8 +483,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
   border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.9rem; color: var(--text); background: var(--bg);
-  outline: none; transition: border-color var(--t); margin-bottom: 10px;
-  display: block;
+  outline: none; transition: border-color var(--t); margin-bottom: 10px; display: block;
 }
 .modal-input:focus { border-color: var(--accent); }
 .modal-input::placeholder { color: var(--muted); }
@@ -453,10 +495,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 }
 .modal-submit:hover { background: var(--accent-dark); transform: translateY(-1px); }
 .modal-fine { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 10px; }
-.modal-success {
-  text-align: center; display: none;
-  flex-direction: column; align-items: center; padding: 20px 0;
-}
+.modal-success { text-align: center; display: none; flex-direction: column; align-items: center; padding: 20px 0; }
 .modal-success.show { display: flex; }
 .success-icon { width: 64px; height: 64px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
 .modal-success h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 10px; }
@@ -474,34 +513,29 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   .kpi-grid { grid-template-columns: repeat(2,1fr); }
   .features-bento { grid-template-columns: 1fr 1fr; }
   .feat-card.wide { grid-column: span 1; }
-  .how-inner { grid-template-columns: 1fr; gap: 40px; }
+  .problem-inner, .how-inner { grid-template-columns: 1fr; gap: 40px; }
   .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
   .testi-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2,1fr); }
   .stat-item:nth-child(2) { border-right: none; }
-  .stat-item:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.15); }
   .logos-row { gap: 28px; }
 }
 @media (max-width: 700px) {
-  .nav-links, .nav-login, .nav-right .btn { display: none; }
+  .nav-links, .nav-right .btn { display: none; }
   .hamburger { display: flex; }
   .hero { padding: 100px 0 60px; }
   .hero-ctas { flex-direction: column; }
   .hero-ctas .btn { width: 100%; justify-content: center; }
   .features-bento { grid-template-columns: 1fr; }
-  .feat-card.wide { grid-column: span 1; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-links { gap: 16px; }
+  .verif-row { flex-wrap: wrap; gap: 6px; }
 }
 @media (max-width: 500px) {
   .kpi-grid { grid-template-columns: 1fr 1fr; }
-  .hero h1 { font-size: 2.2rem; }
+  .hero h1 { font-size: 2.1rem; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .stat-item { padding: 16px 12px; }
-  .stat-item:nth-child(3) { border-right: none; }
-  .funnel-row-label { display: none; }
-  .chart-bars { gap: 3px; }
-  .bar-group { gap: 1px; }
 }
 </style>
 </head>
@@ -510,32 +544,32 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- MODAL -->
 <div class="modal-overlay" id="trialModal">
   <div class="modal">
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <button class="modal-close" id="modalClose">✕</button>
     <div id="modalFormBody">
-      <div class="modal-icon">🚀</div>
-      <h3>Start your free trial</h3>
-      <div class="modal-plan-text" id="modalPlanLabel">Growth Plan — $79/mo after trial</div>
-      <div class="modal-sub">No credit card required. Full access for 14 days, cancel anytime.</div>
-      <input type="email" id="emailInput" class="modal-input" placeholder="your@email.com" autocomplete="email" />
-      <input type="text" class="modal-input" placeholder="Your Shopify store URL (e.g. mystore.myshopify.com)" />
-      <button class="modal-submit" id="modalSubmit">Get Started Free →</button>
-      <div class="modal-fine">By signing up you agree to our Terms &amp; Privacy Policy.</div>
+      <div class="modal-icon">🛡️</div>
+      <h3>Install on Shopify</h3>
+      <div class="modal-plan-text" id="modalPlanLabel">Free 14-day trial · No card required</div>
+      <div class="modal-sub">Enter your store URL and we'll redirect you to the Shopify App Store to install Rev Signal Labs.</div>
+      <input type="text" id="storeInput" class="modal-input" placeholder="yourstore.myshopify.com" autocomplete="off" />
+      <input type="email" id="emailInput" class="modal-input" placeholder="your@email.com" />
+      <button class="modal-submit" id="modalSubmit">Install Free → Start Trial</button>
+      <div class="modal-fine">By installing you agree to our Terms & Privacy Policy.</div>
     </div>
     <div class="modal-success" id="modalSuccess">
       <div class="success-icon">✅</div>
-      <h3>You're in!</h3>
-      <p>Check your inbox for your magic login link. Your 14-day trial has started — no card needed.</p>
+      <h3>Redirecting you now!</h3>
+      <p>Opening the Shopify App Store. Your 14-day free trial begins on install — no card needed.</p>
     </div>
   </div>
 </div>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#problem" class="mobile-nav-link">The Problem</a>
   <a href="#features" class="mobile-nav-link">Features</a>
   <a href="#how-it-works" class="mobile-nav-link">How it works</a>
   <a href="#pricing" class="mobile-nav-link">Pricing</a>
-  <a href="#testimonials" class="mobile-nav-link">Reviews</a>
-  <a href="#" class="open-trial mobile-cta-link" data-plan="Starter Plan — $29/mo">Start Free Trial</a>
+  <a href="#" class="open-trial mobile-cta-link" data-plan="Starter Plan — Free to install">Install Free</a>
 </div>
 
 <!-- NAV -->
@@ -552,14 +586,13 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
         Rev<span>Signal</span> Labs
       </a>
       <ul class="nav-links">
+        <li><a href="#problem">The Problem</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">How it works</a></li>
         <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#testimonials">Reviews</a></li>
       </ul>
       <div class="nav-right">
-        <span class="nav-login open-trial" data-plan="Growth Plan — $79/mo">Log in</span>
-        <a href="#pricing" class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Get Started Free</a>
+        <a href="#pricing" class="btn btn-primary open-trial" style="font-size:0.82rem;padding:9px 18px;" data-plan="Growth Plan">Install Free on Shopify</a>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
           <span></span><span></span><span></span>
         </button>
@@ -571,14 +604,14 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-badge"><div class="live-dot"></div>Now live on Shopify App Marketplace</div>
-    <h1>Analytics that turns<br><em>data into revenue</em></h1>
-    <p class="hero-sub">Rev Signal Labs gives Shopify merchants a single source of truth — from attribution to cohort retention, built to scale with you.</p>
+    <div class="hero-badge"><div class="live-dot"></div>Now live on Shopify App Store</div>
+    <h1>Stop paying for orders<br>that <em>never get delivered</em></h1>
+    <p class="hero-sub">Rev Signal Labs automatically verifies COD orders via WhatsApp & SMS — so only confirmed buyers ship, cutting your RTO losses by up to 60%.</p>
     <div class="hero-ctas">
-      <button class="btn btn-primary open-trial" data-plan="Growth Plan — $79/mo">Start Free 14-Day Trial</button>
-      <a href="#features" class="btn btn-outline">See all features →</a>
+      <button class="btn btn-primary open-trial" data-plan="Growth Plan — Free install">Install Free on Shopify</button>
+      <a href="#how-it-works" class="btn btn-outline">See how it works →</a>
     </div>
-    <p class="hero-note">No credit card required · Setup in 5 minutes · Cancel anytime</p>
+    <p class="hero-note">Free to install · Pay only for verified orders · No setup required</p>
 
     <div class="hero-dashboard">
       <div class="dash-wrap">
@@ -586,27 +619,49 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           <div class="dash-store">
             <div class="dash-store-icon">🛍️</div>
             <div>
-              <div class="dash-store-name">Sage & Stone Skincare</div>
-              <div class="dash-store-sub">myshopify.com · Connected</div>
+              <div class="dash-store-name">Nykaa Fashion Store</div>
+              <div class="dash-store-sub">myshopify.com · COD Verification Active</div>
             </div>
           </div>
-          <div class="dash-period">Last 30 days ▾</div>
+          <div class="dash-period">Today ▾</div>
         </div>
+
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">Total Revenue</div><div class="kpi-val">$84.2K</div><span class="kpi-delta up">↑ 23.4%</span></div>
-          <div class="kpi-card"><div class="kpi-label">Orders</div><div class="kpi-val">1,247</div><span class="kpi-delta up">↑ 11.2%</span></div>
-          <div class="kpi-card"><div class="kpi-label">Avg Order Value</div><div class="kpi-val">$67.5</div><span class="kpi-delta up">↑ 5.8%</span></div>
-          <div class="kpi-card"><div class="kpi-label">Return Rate</div><div class="kpi-val">3.1%</div><span class="kpi-delta down">↓ 1.2%</span></div>
+          <div class="kpi-card"><div class="kpi-label">Orders Verified</div><div class="kpi-val">148</div><span class="kpi-delta up">↑ 12% today</span></div>
+          <div class="kpi-card"><div class="kpi-label">RTO Prevented</div><div class="kpi-val">23</div><span class="kpi-delta up">↑ Blocked</span></div>
+          <div class="kpi-card"><div class="kpi-label">Verification Rate</div><div class="kpi-val">86.5%</div><span class="kpi-delta up">↑ 3.2%</span></div>
+          <div class="kpi-card"><div class="kpi-label">Revenue Protected</div><div class="kpi-val">₹3.1L</div><span class="kpi-delta up">↑ Saved</span></div>
         </div>
-        <div class="chart-header">
-          <div class="chart-title">Revenue · Last 14 days vs Prior period</div>
-          <div class="chart-legend">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>This period</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>Prior period</div>
+
+        <div class="verif-timeline">
+          <div class="verif-timeline-title">Live Order Verification Feed</div>
+          <div class="verif-rows">
+            <div class="verif-row">
+              <div class="verif-order">#ORD-4821</div>
+              <div class="verif-cust">Priya Sharma · Mumbai</div>
+              <div class="verif-amt">₹1,240</div>
+              <span class="verif-status confirmed">✓ Confirmed</span>
+            </div>
+            <div class="verif-row">
+              <div class="verif-order">#ORD-4820</div>
+              <div class="verif-cust">Rahul Verma · Delhi</div>
+              <div class="verif-amt">₹3,800</div>
+              <span class="verif-status cancelled">✗ Cancelled</span>
+            </div>
+            <div class="verif-row">
+              <div class="verif-order">#ORD-4819</div>
+              <div class="verif-cust">Anita Desai · Pune</div>
+              <div class="verif-amt">₹650</div>
+              <span class="verif-status confirmed">✓ Confirmed</span>
+            </div>
+            <div class="verif-row">
+              <div class="verif-order">#ORD-4818</div>
+              <div class="verif-cust">Kiran Patel · Ahmedabad</div>
+              <div class="verif-amt">₹2,100</div>
+              <span class="verif-status pending">⏳ Awaiting</span>
+            </div>
           </div>
         </div>
-        <div class="chart-bars" id="heroChart"></div>
-        <div class="chart-labels" id="chartLabels"></div>
       </div>
     </div>
   </div>
@@ -615,14 +670,14 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- LOGOS -->
 <div class="logos-bar">
   <div class="container">
-    <div class="logos-label">Trusted by 2,400+ Shopify merchants worldwide</div>
+    <div class="logos-label">Trusted by 1,200+ Shopify stores across India</div>
     <div class="logos-row">
-      <div class="logo-item">NovaBrew</div>
-      <div class="logo-item">Luxe Botanics</div>
-      <div class="logo-item">Peak Athletic</div>
-      <div class="logo-item">ZenThreads</div>
-      <div class="logo-item">OakAndIron</div>
-      <div class="logo-item">SolderKit</div>
+      <div class="logo-item">Bewakoof</div>
+      <div class="logo-item">Snitch</div>
+      <div class="logo-item">Libas</div>
+      <div class="logo-item">FabAlley</div>
+      <div class="logo-item">Chumbak</div>
+      <div class="logo-item">Plum</div>
     </div>
   </div>
 </div>
@@ -631,10 +686,53 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <section class="stats-section reveal">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat-item"><div class="stat-num">2,400+</div><div class="stat-desc">Shopify stores active</div></div>
-      <div class="stat-item"><div class="stat-num">$340M</div><div class="stat-desc">Revenue tracked monthly</div></div>
-      <div class="stat-item"><div class="stat-num">18%</div><div class="stat-desc">Avg revenue lift reported</div></div>
+      <div class="stat-item"><div class="stat-num">1,200+</div><div class="stat-desc">Shopify stores protected</div></div>
+      <div class="stat-item"><div class="stat-num">60%</div><div class="stat-desc">Average RTO reduction</div></div>
+      <div class="stat-item"><div class="stat-num">₹18Cr+</div><div class="stat-desc">Revenue protected monthly</div></div>
       <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-desc">Shopify app store rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="problem-inner">
+      <div class="reveal">
+        <div class="tag">The COD Problem</div>
+        <div class="section-title">COD is 60% of Indian<br>ecommerce — and its<br>biggest <em style="color:var(--red);font-style:normal;">liability</em></div>
+        <p class="section-sub" style="margin-bottom:24px;">Every undelivered COD order costs you the product, shipping, return shipping, and warehouse handling. For most D2C stores, RTO eats 15–30% of revenue.</p>
+        <p class="section-sub">Rev Signal Labs sends an automated WhatsApp or SMS message the moment a COD order is placed — and only ships if the customer confirms.</p>
+      </div>
+      <div class="problem-visual reveal">
+        <div class="rto-bar-title">Average COD Order Cost Breakdown</div>
+        <div class="rto-bars">
+          <div class="rto-row">
+            <div class="rto-row-header"><span>Forward shipping</span><span>₹80–120</span></div>
+            <div class="rto-track"><div class="rto-fill neutral" style="width:30%"></div></div>
+          </div>
+          <div class="rto-row">
+            <div class="rto-row-header"><span>Return shipping (RTO)</span><span>₹80–120</span></div>
+            <div class="rto-track"><div class="rto-fill bad" style="width:30%"></div></div>
+          </div>
+          <div class="rto-row">
+            <div class="rto-row-header"><span>COD handling fee</span><span>₹25–40</span></div>
+            <div class="rto-track"><div class="rto-fill bad" style="width:12%"></div></div>
+          </div>
+          <div class="rto-row">
+            <div class="rto-row-header"><span>Repackaging cost</span><span>₹30–60</span></div>
+            <div class="rto-track"><div class="rto-fill bad" style="width:18%"></div></div>
+          </div>
+          <div class="rto-row">
+            <div class="rto-row-header"><span>Lost margin per unit</span><span>₹215–340</span></div>
+            <div class="rto-track"><div class="rto-fill good" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="cost-box">
+          <div class="cost-box-label">💸 The math is brutal</div>
+          <div class="cost-box-text">On a ₹500 product with 30% margin, a single RTO wipes out the profit from <strong>3–4 successful orders</strong>. With 25% RTO rate, you're working for free.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -644,36 +742,54 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="features-header reveal">
       <div class="tag">Features</div>
-      <div class="section-title">Every metric that matters,<br>in one place</div>
-      <p class="section-sub">From marketing attribution to cohort retention — built exclusively for Shopify merchants who want to grow smarter.</p>
+      <div class="section-title">Everything you need to<br>cut RTO — nothing you don't</div>
+      <p class="section-sub">Built specifically for Indian D2C brands on Shopify. No bloat, no complexity.</p>
     </div>
     <div class="features-bento reveal">
+
       <div class="feat-card wide">
-        <div class="feat-icon blue">📊</div>
-        <div class="feat-name">Revenue Attribution</div>
-        <div class="feat-desc">Know exactly which channels, campaigns, and products drive revenue. Connect Meta, Google, TikTok, and Klaviyo in one view — no spreadsheets needed.</div>
-        <div class="feat-visual"><div class="mini-bar-chart" id="featChart"></div></div>
+        <div class="feat-icon green">💬</div>
+        <div class="feat-name">WhatsApp & SMS Verification</div>
+        <div class="feat-desc">The moment a COD order is placed, we send the customer a WhatsApp message asking them to confirm. If they say yes, the order ships. If they don't respond or cancel, we flag it immediately — saving you the shipping cost before it leaves the warehouse.</div>
+        <div class="wa-mockup">
+          <div class="wa-bubble">
+            Hi Priya! 👋 You placed a COD order for <strong>₹1,240</strong> on NykaaFashion. Please confirm your order to proceed with delivery. Reply <strong>YES</strong> to confirm or <strong>NO</strong> to cancel.
+          </div>
+          <div class="wa-time">10:32 AM ✓✓</div>
+          <div class="wa-reply">YES ✓✓</div>
+        </div>
       </div>
+
+      <div class="feat-card">
+        <div class="feat-icon blue">📊</div>
+        <div class="feat-name">Real-Time Analytics Dashboard</div>
+        <div class="feat-desc">Track verification rates, RTO prevention, and revenue protected — all in one dashboard. Know your exact COD performance at a glance.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon orange">⚡</div>
+        <div class="feat-name">Smart Auto-Cancellation</div>
+        <div class="feat-desc">Set rules to auto-cancel orders that don't respond after N attempts. Configurable per product category, order value, or customer history.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon red">🎯</div>
+        <div class="feat-name">High-Risk Order Flagging</div>
+        <div class="feat-desc">Our ML model scores every COD order for RTO risk based on pincode, address quality, order history and more — before you even send verification.</div>
+      </div>
+
       <div class="feat-card">
         <div class="feat-icon green">🔁</div>
-        <div class="feat-name">Customer Cohort Analysis</div>
-        <div class="feat-desc">See how groups of buyers behave over time. Identify your most loyal acquisition sources and double down on what works.</div>
+        <div class="feat-name">Retry Logic & Escalation</div>
+        <div class="feat-desc">If a customer doesn't respond to WhatsApp, we automatically retry via SMS. Configurable retry intervals and attempt limits.</div>
       </div>
+
       <div class="feat-card">
-        <div class="feat-icon yellow">⚡</div>
-        <div class="feat-name">Real-Time Alerts</div>
-        <div class="feat-desc">Slack or email notifications when conversion drops, a product goes viral, or a stockout is approaching — before it costs you.</div>
+        <div class="feat-icon blue">🔌</div>
+        <div class="feat-name">Zero-Code Shopify Setup</div>
+        <div class="feat-desc">Install from the Shopify App Store and go live in under 5 minutes. No developer, no webhooks to configure — it just works.</div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon blue">🗺️</div>
-        <div class="feat-name">Customer Journey Mapping</div>
-        <div class="feat-desc">Visualize the full path from first touch to checkout across every device and session. Find drop-offs and fix them fast.</div>
-      </div>
-      <div class="feat-card wide">
-        <div class="feat-icon red">📦</div>
-        <div class="feat-name">Inventory Intelligence</div>
-        <div class="feat-desc">ML models predict demand before stockouts happen. Order smarter, reduce overstock, and keep your bestsellers in stock — always.</div>
-      </div>
+
     </div>
   </div>
 </section>
@@ -684,27 +800,84 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
     <div class="how-inner">
       <div class="reveal">
         <div class="tag">How it works</div>
-        <div class="section-title">Live in under<br>5 minutes</div>
+        <div class="section-title">From order to verified<br>in under 2 minutes</div>
         <div class="steps">
-          <div class="step"><div class="step-num">1</div><div><div class="step-title">Install from Shopify App Store</div><div class="step-desc">One-click install. No developer needed. RevSignal connects securely via Shopify's official API.</div></div></div>
-          <div class="step"><div class="step-num">2</div><div><div class="step-title">Connect your marketing channels</div><div class="step-desc">Link Meta, Google, Klaviyo, TikTok and more in 60 seconds. We pull the data — you keep full control.</div></div></div>
-          <div class="step"><div class="step-num">3</div><div><div class="step-title">Insights appear instantly</div><div class="step-desc">Your dashboard populates with real-time data. Our AI surfaces top opportunities and risks automatically.</div></div></div>
-          <div class="step"><div class="step-num">4</div><div><div class="step-title">Act on AI recommendations</div><div class="step-desc">Weekly growth reports with clear next steps. No analytics degree required — built for founders.</div></div></div>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <div class="step-title">Customer places a COD order</div>
+              <div class="step-desc">Your Shopify store receives the order as normal. Rev Signal Labs intercepts it instantly via our Shopify webhook integration.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <div class="step-title">WhatsApp message sent automatically</div>
+              <div class="step-desc">Within seconds, the customer receives a personalized WhatsApp (or SMS fallback) asking them to confirm their order with a single reply.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-title">Customer replies YES or NO</div>
+              <div class="step-desc">Confirmed orders are tagged and released for fulfillment. Unconfirmed or cancelled orders are flagged and optionally auto-cancelled.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div>
+              <div class="step-title">You ship only confirmed orders</div>
+              <div class="step-desc">Your warehouse only receives orders that have been verified. No more RTO surprises. No more paying to ship orders that come back.</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="funnel-visual reveal">
-        <div class="funnel-title">Checkout Funnel · This Week</div>
-        <div class="funnel-rows">
-          <div class="funnel-row"><div class="funnel-row-label">Product view</div><div class="funnel-track"><div class="funnel-fill f1" style="width:100%">12,480</div></div><div class="funnel-pct">100%</div></div>
-          <div class="funnel-row"><div class="funnel-row-label">Add to cart</div><div class="funnel-track"><div class="funnel-fill f2" style="width:58%">7,238</div></div><div class="funnel-pct">58%</div></div>
-          <div class="funnel-row"><div class="funnel-row-label">Checkout</div><div class="funnel-track"><div class="funnel-fill f3" style="width:38%">4,742</div></div><div class="funnel-pct">38%</div></div>
-          <div class="funnel-row"><div class="funnel-row-label">Purchased</div><div class="funnel-track"><div class="funnel-fill f4" style="width:24%">2,995</div></div><div class="funnel-pct">24%</div></div>
+
+      <div class="flow-visual reveal">
+        <div class="flow-title">Order Verification Flow</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-icon blue">🛒</div>
+            <div>
+              <div class="flow-step-title">COD Order Placed</div>
+              <div class="flow-step-desc">Shopify webhook fires instantly</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">💬</div>
+            <div>
+              <div class="flow-step-title">WhatsApp Message Sent</div>
+              <div class="flow-step-desc">Within 30 seconds of order creation</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon orange">⏳</div>
+            <div>
+              <div class="flow-step-title">Awaiting Confirmation</div>
+              <div class="flow-step-desc">Retry via SMS if no reply in 30 mins</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">✅</div>
+            <div>
+              <div class="flow-step-title">Confirmed → Ship</div>
+              <div class="flow-step-desc">Order tagged "Verified" in Shopify</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon red">❌</div>
+            <div>
+              <div class="flow-step-title">No Reply / Cancelled → Hold</div>
+              <div class="flow-step-desc">Auto-cancel or manual review</div>
+            </div>
+          </div>
         </div>
-        <div class="insight-box">
-          <div class="insight-label">💡 AI Opportunity</div>
-          <div class="insight-text">Adding a cart abandonment email sequence could recover ~$8,200/mo based on your current AOV and cart drop-off rate.</div>
+        <div class="flow-saving">
+          <div class="flow-saving-label">💡 Real result</div>
+          <div class="flow-saving-text">Stores using Rev Signal Labs see an average <strong>58% reduction in RTO</strong> within the first 30 days.</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -714,67 +887,76 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="pricing-header reveal">
       <div class="tag">Pricing</div>
-      <div class="section-title">Simple, honest pricing</div>
-      <p class="section-sub">14-day free trial on every plan. No credit card. No surprises. Cancel anytime.</p>
-    </div>
-    <div style="display:flex;justify-content:center" class="reveal">
-      <div class="billing-toggle">
-        <button class="toggle-btn active" id="monthlyBtn">Monthly</button>
-        <button class="toggle-btn" id="annualBtn">Annual<span class="save-badge">2 MO FREE</span></button>
-      </div>
+      <div class="section-title">Pay only for what works</div>
+      <p class="section-sub">Usage-based pricing that scales with your store. The more you save, the more sense it makes.</p>
     </div>
     <div class="pricing-grid reveal">
+
       <div class="price-card">
         <div class="plan-tier">Starter</div>
-        <div class="plan-price-row"><span class="price-dollar">$</span><span class="price-amount" data-monthly="29" data-annual="24">29</span><span class="price-period">/mo</span></div>
-        <div class="plan-annual-note" id="starterNote">&nbsp;</div>
+        <div class="plan-price-row">
+          <span class="price-dollar">₹</span>
+          <span class="price-amount">999</span>
+          <span class="price-period">/mo</span>
+        </div>
+        <div class="plan-orders">Up to 300 COD verifications/mo</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">Perfect for stores just getting started with analytics.</div>
+        <div class="plan-desc">For stores just getting started with COD verification.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>Up to $50K monthly revenue</li>
-          <li><span class="check">✓</span>Core revenue dashboard</li>
-          <li><span class="check">✓</span>1 marketing channel</li>
-          <li><span class="check">✓</span>30-day data history</li>
-          <li><span class="check">✓</span>Email alerts</li>
+          <li><span class="check">✓</span>300 verifications/month</li>
+          <li><span class="check">✓</span>WhatsApp + SMS</li>
+          <li><span class="check">✓</span>Basic analytics dashboard</li>
+          <li><span class="check">✓</span>Auto-cancel on no-reply</li>
           <li><span class="check">✓</span>Email support</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Starter Plan — $29/mo">Start Free Trial</button>
+        <button class="plan-btn open-trial" data-plan="Starter — ₹999/mo">Start Free Trial</button>
       </div>
+
       <div class="price-card featured">
         <div class="popular-badge">MOST POPULAR</div>
         <div class="plan-tier">Growth</div>
-        <div class="plan-price-row"><span class="price-dollar">$</span><span class="price-amount" data-monthly="79" data-annual="66">79</span><span class="price-period">/mo</span></div>
-        <div class="plan-annual-note" id="growthNote">&nbsp;</div>
+        <div class="plan-price-row">
+          <span class="price-dollar">₹</span>
+          <span class="price-amount">2,499</span>
+          <span class="price-period">/mo</span>
+        </div>
+        <div class="plan-orders">Up to 1,000 COD verifications/mo</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">For growing stores ready to scale their analytics.</div>
+        <div class="plan-desc">For growing D2C brands ready to scale operations.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>Up to $500K monthly revenue</li>
-          <li><span class="check">✓</span>Full analytics suite</li>
-          <li><span class="check">✓</span>All marketing channels</li>
-          <li><span class="check">✓</span>1-year data history</li>
-          <li><span class="check">✓</span>AI growth recommendations</li>
-          <li><span class="check">✓</span>Slack + email alerts</li>
+          <li><span class="check">✓</span>1,000 verifications/month</li>
+          <li><span class="check">✓</span>WhatsApp + SMS with retries</li>
+          <li><span class="check">✓</span>Full analytics dashboard</li>
+          <li><span class="check">✓</span>High-risk order flagging</li>
+          <li><span class="check">✓</span>Smart auto-cancellation rules</li>
+          <li><span class="check">✓</span>Custom message templates</li>
           <li><span class="check">✓</span>Priority support</li>
         </ul>
-        <button class="plan-btn primary-btn open-trial" data-plan="Growth Plan — $79/mo">Start Free Trial</button>
+        <button class="plan-btn primary-btn open-trial" data-plan="Growth — ₹2,499/mo">Start Free Trial</button>
       </div>
+
       <div class="price-card">
         <div class="plan-tier">Scale</div>
-        <div class="plan-price-row"><span class="price-dollar">$</span><span class="price-amount" data-monthly="199" data-annual="166">199</span><span class="price-period">/mo</span></div>
-        <div class="plan-annual-note" id="scaleNote">&nbsp;</div>
+        <div class="plan-price-row">
+          <span class="price-dollar">₹</span>
+          <span class="price-amount">5,999</span>
+          <span class="price-period">/mo</span>
+        </div>
+        <div class="plan-orders">Unlimited verifications</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">For high-volume merchants who need full power and flexibility.</div>
+        <div class="plan-desc">For high-volume merchants with complex COD operations.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>Unlimited revenue</li>
+          <li><span class="check">✓</span>Unlimited verifications</li>
+          <li><span class="check">✓</span>ML-based RTO risk scoring</li>
           <li><span class="check">✓</span>Multi-store management</li>
-          <li><span class="check">✓</span>Custom dashboards</li>
-          <li><span class="check">✓</span>Unlimited data history</li>
-          <li><span class="check">✓</span>Advanced cohort analysis</li>
           <li><span class="check">✓</span>API access</li>
+          <li><span class="check">✓</span>Advanced reporting & export</li>
+          <li><span class="check">✓</span>Custom webhook integrations</li>
           <li><span class="check">✓</span>Dedicated account manager</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Scale Plan — $199/mo">Start Free Trial</button>
+        <button class="plan-btn open-trial" data-plan="Scale — ₹5,999/mo">Start Free Trial</button>
       </div>
+
     </div>
   </div>
 </section>
@@ -784,32 +966,68 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="testimonials-header reveal">
       <div class="tag">Reviews</div>
-      <div class="section-title">Merchants love RevSignal</div>
+      <div class="section-title">D2C brands love Rev Signal Labs</div>
     </div>
     <div class="testi-grid reveal">
       <div class="testi-card">
         <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"RevSignal replaced three separate tools for us. The cohort analysis alone showed us that Instagram ads bring customers with 40% higher LTV. Total game changer."</p>
+        <p class="testi-quote">"Our RTO was at 28% and killing our margins. After installing Rev Signal Labs, it dropped to 11% in the first month. The WhatsApp verification is shockingly simple — customers love it too."</p>
         <div class="testi-author">
-          <div class="testi-avatar" style="background:#e0faf3;color:#00c48c;">SR</div>
-          <div><div class="testi-name">Sarah Rowe</div><div class="testi-store">🛍️ Sage & Stone Skincare</div></div>
+          <div class="testi-avatar" style="background:#e0faf3;color:#00c48c;">RK</div>
+          <div><div class="testi-name">Rohit Kapoor</div><div class="testi-store">🛍️ ThreadCraft India</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"Went from spending 2 hours every Monday pulling reports to a 10-minute review. The AI recommendations helped us cut wasted ad spend by $4K a month."</p>
+        <p class="testi-quote">"Setup took literally 4 minutes. No developer needed. We went live immediately and blocked 47 fake orders in the first week alone. The ROI is obvious from day one."</p>
         <div class="testi-author">
-          <div class="testi-avatar" style="background:#e8f0fe;color:#0d6efd;">JL</div>
-          <div><div class="testi-name">James Liu</div><div class="testi-store">🛍️ Peak Athletic Co.</div></div>
+          <div class="testi-avatar" style="background:#e8f0fe;color:#0d6efd;">SM</div>
+          <div><div class="testi-name">Sanya Mehta</div><div class="testi-store">🛍️ Bloom & Co.</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"The inventory forecasting is scarily accurate. We haven't had a stockout in 6 months since switching. Our 3PL warehouse team loves us now."</p>
+        <p class="testi-quote">"The risk scoring feature is a game changer. It flags high-RTO pincodes automatically — we've stopped shipping to problem areas that were costing us ₹2L a month."</p>
         <div class="testi-author">
-          <div class="testi-avatar" style="background:#fff0f3;color:#ff4d6a;">AM</div>
-          <div><div class="testi-name">Amara Mensah</div><div class="testi-store">🛍️ Afro Heritage Collective</div></div>
+          <div class="testi-avatar" style="background:#fff7ed;color:#f97316;">AJ</div>
+          <div><div class="testi-name">Arjun Joshi</div><div class="testi-store">🛍️ KraftHaus</div></div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-header reveal">
+      <div class="tag">FAQ</div>
+      <div class="section-title">Common questions</div>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-q">Does this work with all Shopify plans? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes. Rev Signal Labs works with all Shopify plans including Basic, Shopify, Advanced, and Shopify Plus. Installation is done entirely through the Shopify App Store.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens if a customer doesn't reply to WhatsApp? <span class="faq-icon">+</span></div>
+        <div class="faq-a">We automatically retry via SMS after a configurable waiting period (default: 30 minutes). If there's still no reply after your set number of attempts, the order can be auto-cancelled or flagged for manual review — your choice.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will this affect my verified/prepaid orders? <span class="faq-icon">+</span></div>
+        <div class="faq-a">No. Rev Signal Labs only activates for COD orders. Prepaid, UPI, and card orders are completely untouched and fulfil normally through Shopify.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I customize the WhatsApp message? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes, on Growth and Scale plans you can fully customize the message template, including your brand name, order details, and CTA text. Starter plan uses our optimized default template.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is there a free trial? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes — every plan comes with a 14-day free trial. No credit card required. Full access from day one so you can see the RTO reduction for yourself before paying anything.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How do you count "verifications"? <span class="faq-icon">+</span></div>
+        <div class="faq-a">One verification = one COD order where we send at least one message. It doesn't matter how many retries or channels we use for that order — it counts as one verification in your monthly quota.</div>
       </div>
     </div>
   </div>
@@ -818,14 +1036,14 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <div class="tag">Get started today</div>
-    <h2>Ready to grow smarter?</h2>
-    <p>Join 2,400+ Shopify merchants who use RevSignal Labs to make faster, better decisions.</p>
+    <div class="tag">Start today</div>
+    <h2>Stop losing money on<br>undelivered COD orders</h2>
+    <p>Join 1,200+ Shopify stores that are shipping smarter, not harder — with Rev Signal Labs.</p>
     <div class="hero-ctas">
-      <button class="btn btn-white open-trial" data-plan="Growth Plan — $79/mo">Start Your Free Trial</button>
+      <button class="btn btn-white open-trial" data-plan="Growth Plan">Install Free on Shopify →</button>
       <a href="#features" class="btn" style="color:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.2);">See all features</a>
     </div>
-    <p class="cta-note">No credit card · 14-day trial · Cancel anytime</p>
+    <p class="cta-note">Free 14-day trial · No credit card · Cancel anytime</p>
   </div>
 </section>
 
@@ -837,42 +1055,17 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
       <ul class="footer-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#">Blog</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="#">Privacy</a></li>
         <li><a href="#">Terms</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
-      <div class="footer-copy">© 2025 RevSignal Labs. All rights reserved.</div>
+      <div class="footer-copy">© 2025 Rev Signal Labs. All rights reserved.</div>
     </div>
   </div>
 </footer>
 
 <script>
-/* HERO CHART */
-const chartEl = document.getElementById('heroChart');
-const labelsEl = document.getElementById('chartLabels');
-const days = ['M','T','W','T','F','S','S','M','T','W','T','F','S','S'];
-const curr = [55,72,60,88,95,78,45,68,82,91,75,99,70,85];
-const prev = [45,60,55,70,80,65,40,55,70,78,68,85,60,75];
-days.forEach((d, i) => {
-  const g = document.createElement('div'); g.className = 'bar-group';
-  const b1 = document.createElement('div'); b1.className = 'bar prev'; b1.style.height = prev[i]+'%'; b1.title = 'Prior: $'+(prev[i]*850).toLocaleString();
-  const b2 = document.createElement('div'); b2.className = 'bar revenue'; b2.style.height = curr[i]+'%'; b2.title = 'Current: $'+(curr[i]*900).toLocaleString();
-  g.appendChild(b1); g.appendChild(b2); chartEl.appendChild(g);
-  const l = document.createElement('div'); l.className = 'chart-label'; l.textContent = d; labelsEl.appendChild(l);
-});
-
-/* FEATURE CHART */
-const featData = [40,65,30,90,55,75,45,80];
-const featColors = ['var(--accent)','#4d97ff','#ff6b6b','var(--green)'];
-const fc = document.getElementById('featChart');
-if(fc) featData.forEach((h,i) => {
-  const b = document.createElement('div'); b.className = 'mini-bar';
-  b.style.height = h+'%';
-  b.style.background = h > 60 ? featColors[i%4] : 'var(--border)';
-  fc.appendChild(b);
-});
-
 /* HAMBURGER */
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -893,12 +1086,15 @@ const modalFormBody = document.getElementById('modalFormBody');
 const modalSuccess = document.getElementById('modalSuccess');
 
 function openModal(plan) {
-  modalPlanLabel.textContent = plan || 'Growth Plan — $79/mo after trial';
-  modalFormBody.style.display = ''; modalSuccess.classList.remove('show');
-  overlay.classList.add('open'); document.body.style.overflow = 'hidden';
+  modalPlanLabel.textContent = plan || 'Free 14-day trial · No card required';
+  modalFormBody.style.display = '';
+  modalSuccess.classList.remove('show');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('storeInput').value = '';
   document.getElementById('emailInput').value = '';
-  document.getElementById('emailInput').classList.remove('error');
-  setTimeout(() => document.getElementById('emailInput').focus(), 100);
+  document.getElementById('storeInput').classList.remove('error');
+  setTimeout(() => document.getElementById('storeInput').focus(), 100);
 }
 function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
 
@@ -913,29 +1109,13 @@ overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
 modalSubmit.addEventListener('click', () => {
-  const email = document.getElementById('emailInput');
-  if(!email.value.trim() || !email.value.includes('@')) {
-    email.classList.add('error'); email.focus(); return;
-  }
-  email.classList.remove('error');
-  modalFormBody.style.display = 'none'; modalSuccess.classList.add('show');
+  const store = document.getElementById('storeInput');
+  if (!store.value.trim()) { store.classList.add('error'); store.focus(); return; }
+  store.classList.remove('error');
+  modalFormBody.style.display = 'none';
+  modalSuccess.classList.add('show');
   setTimeout(closeModal, 3000);
 });
-
-/* PRICING TOGGLE */
-const monthlyBtn = document.getElementById('monthlyBtn');
-const annualBtn = document.getElementById('annualBtn');
-let isAnnual = false;
-const annualNotes = { starterNote: 'Save $60/yr — billed $288 annually', growthNote: 'Save $156/yr — billed $792 annually', scaleNote: 'Save $396/yr — billed $1,992 annually' };
-
-function updatePrices() {
-  document.querySelectorAll('.price-amount').forEach(el => { el.textContent = isAnnual ? el.dataset.annual : el.dataset.monthly; });
-  Object.entries(annualNotes).forEach(([id, note]) => {
-    const el = document.getElementById(id); if(el) el.textContent = isAnnual ? note : '\u00a0';
-  });
-}
-monthlyBtn.addEventListener('click', () => { isAnnual=false; monthlyBtn.classList.add('active'); annualBtn.classList.remove('active'); updatePrices(); });
-annualBtn.addEventListener('click', () => { isAnnual=true; annualBtn.classList.add('active'); monthlyBtn.classList.remove('active'); updatePrices(); });
 
 /* SMOOTH SCROLL */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -946,8 +1126,19 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+/* FAQ ACCORDION */
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
 /* SCROLL REVEAL */
-const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, {threshold: 0.1});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
