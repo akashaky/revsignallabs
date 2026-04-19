@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rev Signal Labs – Stop COD Fraud Before It Ships</title>
-<meta name="description" content="Rev Signal Labs automatically verifies Cash on Delivery orders via WhatsApp & SMS — cutting RTO losses and protecting your Shopify store revenue.">
+<title>Rev Signal Lab – True Profit Analytics for Shopify</title>
+<meta name="description" content="Rev Signal Lab shows Shopify merchants their true net profit, best customers, and real revenue — in under 5 minutes. No pixel. No complexity.">
 
-<!-- Favicon as inline SVG data URI -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d6efd'/%3E%3Cpath d='M7 20 L13 13 L17 17 L23 9' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M20 9 H23 V12' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d6efd'/%3E%3Cpath d='M7 22 L12 15 L17 19 L24 9' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='24' cy='9' r='2' fill='%2300c48c'/%3E%3C/svg%3E">
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
@@ -29,6 +28,8 @@
   --orange: #f97316;
   --orange-light: #fff7ed;
   --yellow: #ffb703;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
   --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
   --shadow-lg: 0 16px 48px rgba(0,0,0,0.10);
@@ -212,6 +213,7 @@ nav {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 800; font-size: 1.5rem; line-height: 1; margin-bottom: 6px;
 }
+.kpi-val.profit { color: var(--green); }
 .kpi-delta {
   display: inline-flex; align-items: center; gap: 3px;
   font-size: 0.7rem; font-weight: 700;
@@ -220,25 +222,30 @@ nav {
 .kpi-delta.up { background: var(--green-light); color: var(--green); }
 .kpi-delta.down { background: var(--red-light); color: var(--red); }
 
-/* Verification timeline in dash */
-.verif-timeline { margin-top: 4px; }
-.verif-timeline-title { font-size: 0.78rem; font-weight: 700; color: var(--text-sec); margin-bottom: 12px; }
-.verif-rows { display: flex; flex-direction: column; gap: 8px; }
-.verif-row {
-  display: flex; align-items: center; gap: 12px;
+/* P&L BLOCK */
+.pnl-block {
   background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; padding: 10px 14px;
+  border-radius: var(--radius-sm); padding: 18px 20px;
 }
-.verif-order { font-size: 0.78rem; font-weight: 700; color: var(--text); min-width: 80px; }
-.verif-cust { font-size: 0.75rem; color: var(--text-sec); flex: 1; }
-.verif-amt { font-size: 0.78rem; font-weight: 700; color: var(--text); min-width: 56px; text-align: right; }
-.verif-status {
-  font-size: 0.68rem; font-weight: 700; padding: 3px 8px;
-  border-radius: 100px; white-space: nowrap;
+.pnl-title { font-size: 0.78rem; font-weight: 700; color: var(--text-sec); margin-bottom: 14px; }
+.pnl-rows { display: flex; flex-direction: column; gap: 7px; }
+.pnl-row {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.8rem;
 }
-.verif-status.confirmed { background: var(--green-light); color: var(--green); }
-.verif-status.pending { background: #fff8e1; color: #b45309; }
-.verif-status.cancelled { background: var(--red-light); color: var(--red); }
+.pnl-row .label { color: var(--text-sec); }
+.pnl-row .val { font-weight: 600; color: var(--text); }
+.pnl-row .val.neg { color: var(--red); }
+.pnl-divider { height: 1px; background: var(--border); margin: 8px 0; }
+.pnl-total {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.95rem; font-weight: 800;
+}
+.pnl-total .label { font-family: 'Bricolage Grotesque', sans-serif; }
+.pnl-total .val { color: var(--green); font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.3rem; }
+.pnl-margin { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.pnl-margin .label { font-size: 0.72rem; color: var(--muted); }
+.pnl-margin .val { font-size: 0.72rem; font-weight: 700; color: var(--green); background: var(--green-light); padding: 2px 8px; border-radius: 100px; }
 
 /* LOGOS */
 .logos-bar { padding: 44px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--white); }
@@ -258,18 +265,20 @@ nav {
 .problem { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); }
 .problem-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .problem-visual { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
-.rto-bar-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
-.rto-bars { display: flex; flex-direction: column; gap: 14px; }
-.rto-row { display: flex; flex-direction: column; gap: 4px; }
-.rto-row-header { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-sec); font-weight: 600; }
-.rto-track { height: 10px; background: var(--border); border-radius: 10px; overflow: hidden; }
-.rto-fill { height: 100%; border-radius: 10px; }
-.rto-fill.bad { background: var(--red); }
-.rto-fill.good { background: var(--green); }
-.rto-fill.neutral { background: var(--accent); }
-.cost-box { margin-top: 20px; background: var(--red-light); border: 1px solid rgba(255,77,106,0.2); border-radius: 10px; padding: 16px; }
-.cost-box-label { font-size: 0.68rem; color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-.cost-box-text { font-size: 0.82rem; color: var(--text-sec); line-height: 1.5; }
+.bar-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 0.875rem; margin-bottom: 20px; }
+.bar-rows { display: flex; flex-direction: column; gap: 14px; }
+.bar-row { display: flex; flex-direction: column; gap: 4px; }
+.bar-row-header { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-sec); font-weight: 600; }
+.bar-track { height: 10px; background: var(--border); border-radius: 10px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 10px; }
+.bar-fill.green { background: var(--green); }
+.bar-fill.red { background: var(--red); }
+.bar-fill.orange { background: var(--orange); }
+.bar-fill.blue { background: var(--accent); }
+.bar-fill.purple { background: var(--purple); }
+.insight-box { margin-top: 20px; background: var(--accent-light); border: 1px solid rgba(13,110,253,0.2); border-radius: 10px; padding: 16px; }
+.insight-box-label { font-size: 0.68rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.insight-box-text { font-size: 0.82rem; color: var(--text-sec); line-height: 1.5; }
 
 /* FEATURES */
 .features { padding: 100px 0; }
@@ -292,26 +301,23 @@ nav {
 .feat-icon.green { background: var(--green-light); }
 .feat-icon.orange { background: var(--orange-light); }
 .feat-icon.red { background: var(--red-light); }
+.feat-icon.purple { background: var(--purple-light); }
 .feat-name { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
 .feat-desc { font-size: 0.875rem; color: var(--text-sec); line-height: 1.65; }
 
-/* WHATSAPP MOCKUP */
-.wa-mockup {
-  margin-top: 20px; background: #e8f5e9;
-  border-radius: 12px; padding: 16px; font-size: 0.78rem;
+/* PROFIT PREVIEW WIDGET */
+.profit-preview {
+  margin-top: 20px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 12px; padding: 16px;
 }
-.wa-bubble {
-  background: #fff; border-radius: 0 10px 10px 10px;
-  padding: 10px 14px; display: inline-block;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08); max-width: 100%;
-  line-height: 1.5; color: var(--text);
-}
-.wa-time { font-size: 0.65rem; color: var(--muted); margin-top: 4px; text-align: right; }
-.wa-reply {
-  background: #dcf8c6; border-radius: 10px 0 10px 10px;
-  padding: 8px 12px; margin-top: 8px; margin-left: auto;
-  display: table; font-weight: 700; font-size: 0.75rem; color: #1a5c2a;
-}
+.pp-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 5px 0; border-bottom: 1px dashed var(--border); }
+.pp-row:last-of-type { border-bottom: none; }
+.pp-row .pp-label { color: var(--text-sec); }
+.pp-row .pp-val { font-weight: 700; }
+.pp-row .pp-val.neg { color: var(--red); }
+.pp-divider { height: 1px; background: var(--border); margin: 8px 0; }
+.pp-total { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 800; }
+.pp-total .pp-val { color: var(--green); }
 
 /* HOW IT WORKS */
 .how { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -343,12 +349,12 @@ nav {
 .flow-icon.blue { background: var(--accent-light); }
 .flow-icon.green { background: var(--green-light); }
 .flow-icon.orange { background: var(--orange-light); }
-.flow-icon.red { background: var(--red-light); }
+.flow-icon.purple { background: var(--purple-light); }
 .flow-step-title { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .flow-step-desc { font-size: 0.75rem; color: var(--muted); }
-.flow-saving { margin-top: 20px; background: var(--green-light); border: 1px solid rgba(0,196,140,0.2); border-radius: 10px; padding: 14px 16px; }
-.flow-saving-label { font-size: 0.68rem; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
-.flow-saving-text { font-size: 0.8rem; color: var(--text-sec); }
+.flow-result { margin-top: 20px; background: var(--green-light); border: 1px solid rgba(0,196,140,0.2); border-radius: 10px; padding: 14px 16px; }
+.flow-result-label { font-size: 0.68rem; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.flow-result-text { font-size: 0.8rem; color: var(--text-sec); }
 
 /* PRICING */
 .pricing { padding: 100px 0; }
@@ -475,7 +481,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   transition: all var(--t);
 }
 .modal-close:hover { background: var(--border); color: var(--text); }
-.modal-icon { width: 56px; height: 56px; background: var(--green-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 20px; }
+.modal-icon { width: 56px; height: 56px; background: var(--accent-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 20px; }
 .modal h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: 6px; }
 .modal-plan-text { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
 .modal-sub { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 24px; line-height: 1.6; }
@@ -529,7 +535,6 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   .features-bento { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-links { gap: 16px; }
-  .verif-row { flex-wrap: wrap; gap: 6px; }
 }
 @media (max-width: 500px) {
   .kpi-grid { grid-template-columns: 1fr 1fr; }
@@ -546,10 +551,10 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="modal">
     <button class="modal-close" id="modalClose">✕</button>
     <div id="modalFormBody">
-      <div class="modal-icon">🛡️</div>
-      <h3>Install on Shopify</h3>
+      <div class="modal-icon">📊</div>
+      <h3>Start your free trial</h3>
       <div class="modal-plan-text" id="modalPlanLabel">Free 14-day trial · No card required</div>
-      <div class="modal-sub">Enter your store URL and we'll redirect you to the Shopify App Store to install Rev Signal Labs.</div>
+      <div class="modal-sub">Enter your store URL and we'll redirect you to the Shopify App Store to install Rev Signal Lab.</div>
       <input type="text" id="storeInput" class="modal-input" placeholder="yourstore.myshopify.com" autocomplete="off" />
       <input type="email" id="emailInput" class="modal-input" placeholder="your@email.com" />
       <button class="modal-submit" id="modalSubmit">Install Free → Start Trial</button>
@@ -558,7 +563,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
     <div class="modal-success" id="modalSuccess">
       <div class="success-icon">✅</div>
       <h3>Redirecting you now!</h3>
-      <p>Opening the Shopify App Store. Your 14-day free trial begins on install — no card needed.</p>
+      <p>Opening the Shopify App Store. Your 14-day free trial starts on install — no card needed.</p>
     </div>
   </div>
 </div>
@@ -569,7 +574,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <a href="#features" class="mobile-nav-link">Features</a>
   <a href="#how-it-works" class="mobile-nav-link">How it works</a>
   <a href="#pricing" class="mobile-nav-link">Pricing</a>
-  <a href="#" class="open-trial mobile-cta-link" data-plan="Starter Plan — Free to install">Install Free</a>
+  <a href="#" class="open-trial mobile-cta-link" data-plan="Growth Plan — Free trial">Start Free Trial</a>
 </div>
 
 <!-- NAV -->
@@ -579,11 +584,11 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
       <a href="#" class="logo">
         <div class="logo-mark">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 14L7 8L10 11L14 5L16 7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="16" cy="5" r="1.5" fill="white"/>
+            <path d="M2 14L6 9L10 12L15 5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="15" cy="5" r="1.8" fill="#00c48c"/>
           </svg>
         </div>
-        Rev<span>Signal</span> Labs
+        Rev<span>Signal</span> Lab
       </a>
       <ul class="nav-links">
         <li><a href="#problem">The Problem</a></li>
@@ -592,7 +597,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
         <li><a href="#pricing">Pricing</a></li>
       </ul>
       <div class="nav-right">
-        <a href="#pricing" class="btn btn-primary open-trial" style="font-size:0.82rem;padding:9px 18px;" data-plan="Growth Plan">Install Free on Shopify</a>
+        <a href="#pricing" class="btn btn-primary open-trial" style="font-size:0.82rem;padding:9px 18px;" data-plan="Growth Plan">Start Free Trial</a>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
           <span></span><span></span><span></span>
         </button>
@@ -605,13 +610,13 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <section class="hero">
   <div class="container">
     <div class="hero-badge"><div class="live-dot"></div>Now live on Shopify App Store</div>
-    <h1>Stop paying for orders<br>that <em>never get delivered</em></h1>
-    <p class="hero-sub">Rev Signal Labs automatically verifies COD orders via WhatsApp & SMS — so only confirmed buyers ship, cutting your RTO losses by up to 60%.</p>
+    <h1>Finally know your<br><em>true profit</em> — not just revenue</h1>
+    <p class="hero-sub">Rev Signal Lab shows Shopify merchants their real net profit after ad spend, COGS, shipping, and fees — in under 5 minutes. No pixel. No complexity. Just clarity.</p>
     <div class="hero-ctas">
-      <button class="btn btn-primary open-trial" data-plan="Growth Plan — Free install">Install Free on Shopify</button>
+      <button class="btn btn-primary open-trial" data-plan="Growth Plan — Free trial">Start Free Trial on Shopify</button>
       <a href="#how-it-works" class="btn btn-outline">See how it works →</a>
     </div>
-    <p class="hero-note">Free to install · Pay only for verified orders · No setup required</p>
+    <p class="hero-note">Free 14-day trial · No credit card · 5-minute setup</p>
 
     <div class="hero-dashboard">
       <div class="dash-wrap">
@@ -619,48 +624,52 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           <div class="dash-store">
             <div class="dash-store-icon">🛍️</div>
             <div>
-              <div class="dash-store-name">Nykaa Fashion Store</div>
-              <div class="dash-store-sub">myshopify.com · COD Verification Active</div>
+              <div class="dash-store-name">Minimalist Collective</div>
+              <div class="dash-store-sub">myshopify.com · Synced 3 minutes ago</div>
             </div>
           </div>
-          <div class="dash-period">Today ▾</div>
+          <div class="dash-period">Last 30 Days ▾</div>
         </div>
 
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">Orders Verified</div><div class="kpi-val">148</div><span class="kpi-delta up">↑ 12% today</span></div>
-          <div class="kpi-card"><div class="kpi-label">RTO Prevented</div><div class="kpi-val">23</div><span class="kpi-delta up">↑ Blocked</span></div>
-          <div class="kpi-card"><div class="kpi-label">Verification Rate</div><div class="kpi-val">86.5%</div><span class="kpi-delta up">↑ 3.2%</span></div>
-          <div class="kpi-card"><div class="kpi-label">Revenue Protected</div><div class="kpi-val">₹3.1L</div><span class="kpi-delta up">↑ Saved</span></div>
+          <div class="kpi-card">
+            <div class="kpi-label">Gross Revenue</div>
+            <div class="kpi-val">$24,800</div>
+            <span class="kpi-delta up">↑ 18% vs prior</span>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Net Profit</div>
+            <div class="kpi-val profit">$9,112</div>
+            <span class="kpi-delta up">↑ 31% vs prior</span>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Profit Margin</div>
+            <div class="kpi-val">36.7%</div>
+            <span class="kpi-delta up">↑ 4.2 pts</span>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Repeat Rate (90d)</div>
+            <div class="kpi-val">42%</div>
+            <span class="kpi-delta up">↑ 8% vs prior</span>
+          </div>
         </div>
 
-        <div class="verif-timeline">
-          <div class="verif-timeline-title">Live Order Verification Feed</div>
-          <div class="verif-rows">
-            <div class="verif-row">
-              <div class="verif-order">#ORD-4821</div>
-              <div class="verif-cust">Priya Sharma · Mumbai</div>
-              <div class="verif-amt">₹1,240</div>
-              <span class="verif-status confirmed">✓ Confirmed</span>
-            </div>
-            <div class="verif-row">
-              <div class="verif-order">#ORD-4820</div>
-              <div class="verif-cust">Rahul Verma · Delhi</div>
-              <div class="verif-amt">₹3,800</div>
-              <span class="verif-status cancelled">✗ Cancelled</span>
-            </div>
-            <div class="verif-row">
-              <div class="verif-order">#ORD-4819</div>
-              <div class="verif-cust">Anita Desai · Pune</div>
-              <div class="verif-amt">₹650</div>
-              <span class="verif-status confirmed">✓ Confirmed</span>
-            </div>
-            <div class="verif-row">
-              <div class="verif-order">#ORD-4818</div>
-              <div class="verif-cust">Kiran Patel · Ahmedabad</div>
-              <div class="verif-amt">₹2,100</div>
-              <span class="verif-status pending">⏳ Awaiting</span>
-            </div>
+        <div class="pnl-block">
+          <div class="pnl-title">P&amp;L Breakdown — Last 30 Days</div>
+          <div class="pnl-rows">
+            <div class="pnl-row"><span class="label">Gross Revenue</span><span class="val">$24,800</span></div>
+            <div class="pnl-row"><span class="label">− Discounts</span><span class="val neg">−$1,240</span></div>
+            <div class="pnl-row"><span class="label">− Refunds</span><span class="val neg">−$496</span></div>
+            <div class="pnl-divider"></div>
+            <div class="pnl-row"><span class="label">Net Revenue</span><span class="val">$23,064</span></div>
+            <div class="pnl-row"><span class="label">− Ad Spend (Meta)</span><span class="val neg">−$4,200</span></div>
+            <div class="pnl-row"><span class="label">− COGS (32%)</span><span class="val neg">−$7,380</span></div>
+            <div class="pnl-row"><span class="label">− Shipping</span><span class="val neg">−$1,674</span></div>
+            <div class="pnl-row"><span class="label">− Processing Fees</span><span class="val neg">−$698</span></div>
+            <div class="pnl-divider"></div>
           </div>
+          <div class="pnl-total"><span class="label">Net Profit</span><span class="val">$9,112</span></div>
+          <div class="pnl-margin"><span class="label">Profit Margin</span><span class="val">36.7%</span></div>
         </div>
       </div>
     </div>
@@ -670,14 +679,14 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- LOGOS -->
 <div class="logos-bar">
   <div class="container">
-    <div class="logos-label">Trusted by 1,200+ Shopify stores across India</div>
+    <div class="logos-label">Trusted by 800+ Shopify stores worldwide</div>
     <div class="logos-row">
-      <div class="logo-item">Bewakoof</div>
-      <div class="logo-item">Snitch</div>
-      <div class="logo-item">Libas</div>
-      <div class="logo-item">FabAlley</div>
-      <div class="logo-item">Chumbak</div>
-      <div class="logo-item">Plum</div>
+      <div class="logo-item">Allbirds</div>
+      <div class="logo-item">Gymshark</div>
+      <div class="logo-item">MVMT</div>
+      <div class="logo-item">Brooklinen</div>
+      <div class="logo-item">Chubbies</div>
+      <div class="logo-item">Cuts</div>
     </div>
   </div>
 </div>
@@ -686,10 +695,10 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <section class="stats-section reveal">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat-item"><div class="stat-num">1,200+</div><div class="stat-desc">Shopify stores protected</div></div>
-      <div class="stat-item"><div class="stat-num">60%</div><div class="stat-desc">Average RTO reduction</div></div>
-      <div class="stat-item"><div class="stat-num">₹18Cr+</div><div class="stat-desc">Revenue protected monthly</div></div>
-      <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-desc">Shopify app store rating</div></div>
+      <div class="stat-item"><div class="stat-num">800+</div><div class="stat-desc">Shopify stores using Rev Signal Lab</div></div>
+      <div class="stat-item"><div class="stat-num">5 min</div><div class="stat-desc">Average setup time</div></div>
+      <div class="stat-item"><div class="stat-num">$2.4M</div><div class="stat-desc">Profit tracked monthly</div></div>
+      <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-desc">Shopify App Store rating</div></div>
     </div>
   </div>
 </section>
@@ -699,38 +708,42 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="problem-inner">
       <div class="reveal">
-        <div class="tag">The COD Problem</div>
-        <div class="section-title">COD is 60% of Indian<br>ecommerce — and its<br>biggest <em style="color:var(--red);font-style:normal;">liability</em></div>
-        <p class="section-sub" style="margin-bottom:24px;">Every undelivered COD order costs you the product, shipping, return shipping, and warehouse handling. For most D2C stores, RTO eats 15–30% of revenue.</p>
-        <p class="section-sub">Rev Signal Labs sends an automated WhatsApp or SMS message the moment a COD order is placed — and only ships if the customer confirms.</p>
+        <div class="tag">The Analytics Gap</div>
+        <div class="section-title">Shopify tells you revenue.<br>Nobody tells you<br><em style="color:var(--accent);font-style:normal;">actual profit.</em></div>
+        <p class="section-sub" style="margin-bottom:24px;">Most Shopify merchants are flying blind. They see revenue go up and assume they're profitable — without accounting for ad spend, COGS, refunds, and fees eating into every dollar.</p>
+        <p class="section-sub">Rev Signal Lab connects to your Shopify store in one click and shows you the number that actually matters: what you keep after every cost is accounted for.</p>
       </div>
       <div class="problem-visual reveal">
-        <div class="rto-bar-title">Average COD Order Cost Breakdown</div>
-        <div class="rto-bars">
-          <div class="rto-row">
-            <div class="rto-row-header"><span>Forward shipping</span><span>₹80–120</span></div>
-            <div class="rto-track"><div class="rto-fill neutral" style="width:30%"></div></div>
+        <div class="bar-title">Where your $24,800 in revenue actually goes</div>
+        <div class="bar-rows">
+          <div class="bar-row">
+            <div class="bar-row-header"><span>Ad Spend (Meta + Google)</span><span>17%  $4,200</span></div>
+            <div class="bar-track"><div class="bar-fill red" style="width:17%"></div></div>
           </div>
-          <div class="rto-row">
-            <div class="rto-row-header"><span>Return shipping (RTO)</span><span>₹80–120</span></div>
-            <div class="rto-track"><div class="rto-fill bad" style="width:30%"></div></div>
+          <div class="bar-row">
+            <div class="bar-row-header"><span>Cost of Goods (COGS)</span><span>30%  $7,440</span></div>
+            <div class="bar-track"><div class="bar-fill orange" style="width:30%"></div></div>
           </div>
-          <div class="rto-row">
-            <div class="rto-row-header"><span>COD handling fee</span><span>₹25–40</span></div>
-            <div class="rto-track"><div class="rto-fill bad" style="width:12%"></div></div>
+          <div class="bar-row">
+            <div class="bar-row-header"><span>Shipping + Fulfilment</span><span>7%  $1,736</span></div>
+            <div class="bar-track"><div class="bar-fill blue" style="width:7%"></div></div>
           </div>
-          <div class="rto-row">
-            <div class="rto-row-header"><span>Repackaging cost</span><span>₹30–60</span></div>
-            <div class="rto-track"><div class="rto-fill bad" style="width:18%"></div></div>
+          <div class="bar-row">
+            <div class="bar-row-header"><span>Discounts + Refunds</span><span>7%  $1,736</span></div>
+            <div class="bar-track"><div class="bar-fill purple" style="width:7%"></div></div>
           </div>
-          <div class="rto-row">
-            <div class="rto-row-header"><span>Lost margin per unit</span><span>₹215–340</span></div>
-            <div class="rto-track"><div class="rto-fill good" style="width:85%"></div></div>
+          <div class="bar-row">
+            <div class="bar-row-header"><span>Processing Fees</span><span>3%  $744</span></div>
+            <div class="bar-track"><div class="bar-fill red" style="width:3%"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-row-header"><span>✅ Your actual profit</span><span>36%  $8,944</span></div>
+            <div class="bar-track"><div class="bar-fill green" style="width:36%"></div></div>
           </div>
         </div>
-        <div class="cost-box">
-          <div class="cost-box-label">💸 The math is brutal</div>
-          <div class="cost-box-text">On a ₹500 product with 30% margin, a single RTO wipes out the profit from <strong>3–4 successful orders</strong>. With 25% RTO rate, you're working for free.</div>
+        <div class="insight-box">
+          <div class="insight-box-label">💡 The insight Shopify doesn't show you</div>
+          <div class="insight-box-text">You see <strong>$24,800</strong> in revenue. But after every real cost, you kept <strong>$8,944</strong>. That's a 36% margin — and now you actually know it.</div>
         </div>
       </div>
     </div>
@@ -742,52 +755,53 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="features-header reveal">
       <div class="tag">Features</div>
-      <div class="section-title">Everything you need to<br>cut RTO — nothing you don't</div>
-      <p class="section-sub">Built specifically for Indian D2C brands on Shopify. No bloat, no complexity.</p>
+      <div class="section-title">Everything a growing store<br>needs to understand its money</div>
+      <p class="section-sub">Built for $500K–$3M Shopify stores who want Triple Whale clarity without the Triple Whale price tag.</p>
     </div>
     <div class="features-bento reveal">
 
       <div class="feat-card wide">
-        <div class="feat-icon green">💬</div>
-        <div class="feat-name">WhatsApp & SMS Verification</div>
-        <div class="feat-desc">The moment a COD order is placed, we send the customer a WhatsApp message asking them to confirm. If they say yes, the order ships. If they don't respond or cancel, we flag it immediately — saving you the shipping cost before it leaves the warehouse.</div>
-        <div class="wa-mockup">
-          <div class="wa-bubble">
-            Hi Priya! 👋 You placed a COD order for <strong>₹1,240</strong> on NykaaFashion. Please confirm your order to proceed with delivery. Reply <strong>YES</strong> to confirm or <strong>NO</strong> to cancel.
-          </div>
-          <div class="wa-time">10:32 AM ✓✓</div>
-          <div class="wa-reply">YES ✓✓</div>
+        <div class="feat-icon green">💰</div>
+        <div class="feat-name">True P&amp;L Dashboard</div>
+        <div class="feat-desc">See your real profit in seconds — not revenue theater. Rev Signal Lab combines your Shopify orders with your ad spend, COGS, shipping, and processing fees to give you one clean number: what you actually made. Every metric has period-over-period comparison so you always know if you're trending up.</div>
+        <div class="profit-preview">
+          <div class="pp-row"><span class="pp-label">Gross Revenue</span><span class="pp-val">$24,800</span></div>
+          <div class="pp-row"><span class="pp-label">− Ad Spend</span><span class="pp-val neg">−$4,200</span></div>
+          <div class="pp-row"><span class="pp-label">− COGS (32%)</span><span class="pp-val neg">−$7,380</span></div>
+          <div class="pp-row"><span class="pp-label">− Shipping + Fees</span><span class="pp-val neg">−$2,372</span></div>
+          <div class="pp-divider"></div>
+          <div class="pp-total"><span class="pp-label">Net Profit</span><span class="pp-val">$10,848 ↑ 31%</span></div>
         </div>
       </div>
 
       <div class="feat-card">
-        <div class="feat-icon blue">📊</div>
-        <div class="feat-name">Real-Time Analytics Dashboard</div>
-        <div class="feat-desc">Track verification rates, RTO prevention, and revenue protected — all in one dashboard. Know your exact COD performance at a glance.</div>
+        <div class="feat-icon blue">📦</div>
+        <div class="feat-name">Sales Breakdown</div>
+        <div class="feat-desc">Revenue by product, collection, and discount code. See which products are actually profitable after COGS — not just the highest grossing. Spot which discount codes are eating margin vs driving real new customers.</div>
       </div>
 
       <div class="feat-card">
-        <div class="feat-icon orange">⚡</div>
-        <div class="feat-name">Smart Auto-Cancellation</div>
-        <div class="feat-desc">Set rules to auto-cancel orders that don't respond after N attempts. Configurable per product category, order value, or customer history.</div>
+        <div class="feat-icon purple">👥</div>
+        <div class="feat-name">Customer Analytics</div>
+        <div class="feat-desc">New vs returning revenue split, repeat purchase rate, average time between orders, and your top 25 customers by LTV. Know who your best customers are and when to reach out before they churn.</div>
       </div>
 
       <div class="feat-card">
-        <div class="feat-icon red">🎯</div>
-        <div class="feat-name">High-Risk Order Flagging</div>
-        <div class="feat-desc">Our ML model scores every COD order for RTO risk based on pincode, address quality, order history and more — before you even send verification.</div>
+        <div class="feat-icon orange">🏷️</div>
+        <div class="feat-name">Discount Attribution</div>
+        <div class="feat-desc">Know which discount codes bring new customers vs subsidise existing ones. Spot coupon site leakage automatically when a code's usage spikes 3x overnight. Revenue per $1 discounted for every code.</div>
       </div>
 
       <div class="feat-card">
-        <div class="feat-icon green">🔁</div>
-        <div class="feat-name">Retry Logic & Escalation</div>
-        <div class="feat-desc">If a customer doesn't respond to WhatsApp, we automatically retry via SMS. Configurable retry intervals and attempt limits.</div>
+        <div class="feat-icon red">📬</div>
+        <div class="feat-name">Weekly Profit Email</div>
+        <div class="feat-desc">Every Monday, get your store's P&L summary in your inbox. Last week vs prior week, top product, and one key insight. The one report merchants actually open — and the biggest reason they stay subscribed.</div>
       </div>
 
       <div class="feat-card">
-        <div class="feat-icon blue">🔌</div>
-        <div class="feat-name">Zero-Code Shopify Setup</div>
-        <div class="feat-desc">Install from the Shopify App Store and go live in under 5 minutes. No developer, no webhooks to configure — it just works.</div>
+        <div class="feat-icon green">⚡</div>
+        <div class="feat-name">5-Minute Setup</div>
+        <div class="feat-desc">Connect your Shopify store in one click. Enter your COGS %, average shipping cost, and daily ad budget. We sync 12 months of history in the background and show you your profit immediately. No developer. No pixel. No wait.</div>
       </div>
 
     </div>
@@ -800,81 +814,81 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
     <div class="how-inner">
       <div class="reveal">
         <div class="tag">How it works</div>
-        <div class="section-title">From order to verified<br>in under 2 minutes</div>
+        <div class="section-title">From install to profit clarity<br>in under 5 minutes</div>
         <div class="steps">
           <div class="step">
             <div class="step-num">1</div>
             <div>
-              <div class="step-title">Customer places a COD order</div>
-              <div class="step-desc">Your Shopify store receives the order as normal. Rev Signal Labs intercepts it instantly via our Shopify webhook integration.</div>
+              <div class="step-title">Connect your Shopify store</div>
+              <div class="step-desc">One-click OAuth install. We immediately start syncing your last 12 months of orders, customers, and products in the background.</div>
             </div>
           </div>
           <div class="step">
             <div class="step-num">2</div>
             <div>
-              <div class="step-title">WhatsApp message sent automatically</div>
-              <div class="step-desc">Within seconds, the customer receives a personalized WhatsApp (or SMS fallback) asking them to confirm their order with a single reply.</div>
+              <div class="step-title">Enter your cost inputs</div>
+              <div class="step-desc">Tell us your COGS %, average shipping cost per order, and daily ad budget. Two inputs and a radio button — takes 60 seconds.</div>
             </div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
             <div>
-              <div class="step-title">Customer replies YES or NO</div>
-              <div class="step-desc">Confirmed orders are tagged and released for fulfillment. Unconfirmed or cancelled orders are flagged and optionally auto-cancelled.</div>
+              <div class="step-title">See your true profit immediately</div>
+              <div class="step-desc">Your dashboard loads with real data. Revenue, ad spend, COGS, fees — all combined into one Net Profit number with 12 months of history.</div>
             </div>
           </div>
           <div class="step">
             <div class="step-num">4</div>
             <div>
-              <div class="step-title">You ship only confirmed orders</div>
-              <div class="step-desc">Your warehouse only receives orders that have been verified. No more RTO surprises. No more paying to ship orders that come back.</div>
+              <div class="step-title">Stay informed automatically</div>
+              <div class="step-desc">Your dashboard syncs in real-time via webhooks. Every Monday, your weekly P&L report lands in your inbox. No effort required after setup.</div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="flow-visual reveal">
-        <div class="flow-title">Order Verification Flow</div>
+        <div class="flow-title">What happens after you install</div>
         <div class="flow-steps">
           <div class="flow-step">
-            <div class="flow-icon blue">🛒</div>
+            <div class="flow-icon blue">🔌</div>
             <div>
-              <div class="flow-step-title">COD Order Placed</div>
-              <div class="flow-step-desc">Shopify webhook fires instantly</div>
+              <div class="flow-step-title">Shopify OAuth — one click</div>
+              <div class="flow-step-desc">Secure connection, no passwords stored</div>
             </div>
           </div>
           <div class="flow-step">
-            <div class="flow-icon green">💬</div>
+            <div class="flow-icon orange">⚙️</div>
             <div>
-              <div class="flow-step-title">WhatsApp Message Sent</div>
-              <div class="flow-step-desc">Within 30 seconds of order creation</div>
+              <div class="flow-step-title">Enter COGS % + daily ad budget</div>
+              <div class="flow-step-desc">The two numbers that unlock true profit</div>
             </div>
           </div>
           <div class="flow-step">
-            <div class="flow-icon orange">⏳</div>
+            <div class="flow-icon purple">🔄</div>
             <div>
-              <div class="flow-step-title">Awaiting Confirmation</div>
-              <div class="flow-step-desc">Retry via SMS if no reply in 30 mins</div>
+              <div class="flow-step-title">12-month history syncs in background</div>
+              <div class="flow-step-desc">Recent data loads first — dashboard ready in ~60s</div>
             </div>
           </div>
           <div class="flow-step">
-            <div class="flow-icon green">✅</div>
+            <div class="flow-icon green">📊</div>
             <div>
-              <div class="flow-step-title">Confirmed → Ship</div>
-              <div class="flow-step-desc">Order tagged "Verified" in Shopify</div>
+              <div class="flow-step-title">P&amp;L dashboard live</div>
+              <div class="flow-step-desc">Net profit, margin, top products, customers</div>
             </div>
           </div>
           <div class="flow-step">
-            <div class="flow-icon red">❌</div>
+            <div class="flow-icon blue">📧</div>
             <div>
-              <div class="flow-step-title">No Reply / Cancelled → Hold</div>
-              <div class="flow-step-desc">Auto-cancel or manual review</div>
+              <div class="flow-step-title">Weekly email report starts Monday</div>
+              <div class="flow-step-desc">P&L summary lands in inbox automatically</div>
             </div>
           </div>
         </div>
-        <div class="flow-saving">
-          <div class="flow-saving-label">💡 Real result</div>
-          <div class="flow-saving-text">Stores using Rev Signal Labs see an average <strong>58% reduction in RTO</strong> within the first 30 days.</div>
+        <div class="flow-result">
+          <div class="flow-result-label">💡 What merchants say</div>
+          <div class="flow-result-text">Most merchants tell us they learned something new about their business <strong>within the first 10 minutes</strong> of using Rev Signal Lab.</div>
         </div>
       </div>
 
@@ -887,74 +901,75 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="pricing-header reveal">
       <div class="tag">Pricing</div>
-      <div class="section-title">Pay only for what works</div>
-      <p class="section-sub">Usage-based pricing that scales with your store. The more you save, the more sense it makes.</p>
+      <div class="section-title">Straightforward pricing.<br>No surprises.</div>
+      <p class="section-sub">3x cheaper than Triple Whale. All plans include a 14-day free trial — no credit card required.</p>
     </div>
     <div class="pricing-grid reveal">
 
       <div class="price-card">
         <div class="plan-tier">Starter</div>
         <div class="plan-price-row">
-          <span class="price-dollar">₹</span>
-          <span class="price-amount">999</span>
+          <span class="price-dollar">$</span>
+          <span class="price-amount">19</span>
           <span class="price-period">/mo</span>
         </div>
-        <div class="plan-orders">Up to 300 COD verifications/mo</div>
+        <div class="plan-orders">Up to 500 orders/month</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">For stores just getting started with COD verification.</div>
+        <div class="plan-desc">For stores just getting started who want to understand their profit for the first time.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>300 verifications/month</li>
-          <li><span class="check">✓</span>WhatsApp + SMS</li>
-          <li><span class="check">✓</span>Basic analytics dashboard</li>
-          <li><span class="check">✓</span>Auto-cancel on no-reply</li>
+          <li><span class="check">✓</span>P&amp;L dashboard (revenue, profit, margin)</li>
+          <li><span class="check">✓</span>Sales breakdown by product</li>
+          <li><span class="check">✓</span>New vs returning customer split</li>
+          <li><span class="check">✓</span>12-month history sync</li>
+          <li><span class="check">✓</span>Weekly email report</li>
           <li><span class="check">✓</span>Email support</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Starter — ₹999/mo">Start Free Trial</button>
+        <button class="plan-btn open-trial" data-plan="Starter — $19/mo">Start Free Trial</button>
       </div>
 
       <div class="price-card featured">
         <div class="popular-badge">MOST POPULAR</div>
         <div class="plan-tier">Growth</div>
         <div class="plan-price-row">
-          <span class="price-dollar">₹</span>
-          <span class="price-amount">2,499</span>
+          <span class="price-dollar">$</span>
+          <span class="price-amount">49</span>
           <span class="price-period">/mo</span>
         </div>
-        <div class="plan-orders">Up to 1,000 COD verifications/mo</div>
+        <div class="plan-orders">Up to 5,000 orders/month</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">For growing D2C brands ready to scale operations.</div>
+        <div class="plan-desc">For scaling stores who want the full picture — profit, customers, and discount attribution.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>1,000 verifications/month</li>
-          <li><span class="check">✓</span>WhatsApp + SMS with retries</li>
-          <li><span class="check">✓</span>Full analytics dashboard</li>
-          <li><span class="check">✓</span>High-risk order flagging</li>
-          <li><span class="check">✓</span>Smart auto-cancellation rules</li>
-          <li><span class="check">✓</span>Custom message templates</li>
+          <li><span class="check">✓</span>Everything in Starter</li>
+          <li><span class="check">✓</span>Discount code attribution</li>
+          <li><span class="check">✓</span>Customer LTV + repeat rate</li>
+          <li><span class="check">✓</span>Top 25 customers by LTV</li>
+          <li><span class="check">✓</span>Coupon site leakage detection</li>
+          <li><span class="check">✓</span>Cost history (change COGS over time)</li>
           <li><span class="check">✓</span>Priority support</li>
         </ul>
-        <button class="plan-btn primary-btn open-trial" data-plan="Growth — ₹2,499/mo">Start Free Trial</button>
+        <button class="plan-btn primary-btn open-trial" data-plan="Growth — $49/mo">Start Free Trial</button>
       </div>
 
       <div class="price-card">
         <div class="plan-tier">Scale</div>
         <div class="plan-price-row">
-          <span class="price-dollar">₹</span>
-          <span class="price-amount">5,999</span>
+          <span class="price-dollar">$</span>
+          <span class="price-amount">99</span>
           <span class="price-period">/mo</span>
         </div>
-        <div class="plan-orders">Unlimited verifications</div>
+        <div class="plan-orders">Unlimited orders</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">For high-volume merchants with complex COD operations.</div>
+        <div class="plan-desc">For established brands who need unlimited data and are ready for Meta Ads integration.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>Unlimited verifications</li>
-          <li><span class="check">✓</span>ML-based RTO risk scoring</li>
-          <li><span class="check">✓</span>Multi-store management</li>
-          <li><span class="check">✓</span>API access</li>
-          <li><span class="check">✓</span>Advanced reporting & export</li>
-          <li><span class="check">✓</span>Custom webhook integrations</li>
-          <li><span class="check">✓</span>Dedicated account manager</li>
+          <li><span class="check">✓</span>Everything in Growth</li>
+          <li><span class="check">✓</span>Unlimited orders</li>
+          <li><span class="check">✓</span>Meta Ads API (auto spend sync)</li>
+          <li><span class="check">✓</span>24-month history</li>
+          <li><span class="check">✓</span>CSV export</li>
+          <li><span class="check">✓</span>Cohort retention table</li>
+          <li><span class="check">✓</span>Dedicated onboarding call</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Scale — ₹5,999/mo">Start Free Trial</button>
+        <button class="plan-btn open-trial" data-plan="Scale — $99/mo">Start Free Trial</button>
       </div>
 
     </div>
@@ -966,31 +981,31 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <div class="container">
     <div class="testimonials-header reveal">
       <div class="tag">Reviews</div>
-      <div class="section-title">D2C brands love Rev Signal Labs</div>
+      <div class="section-title">Merchants finally know<br>their real numbers</div>
     </div>
     <div class="testi-grid reveal">
       <div class="testi-card">
         <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"Our RTO was at 28% and killing our margins. After installing Rev Signal Labs, it dropped to 11% in the first month. The WhatsApp verification is shockingly simple — customers love it too."</p>
+        <p class="testi-quote">"I was looking at $40K in monthly revenue thinking I was killing it. Rev Signal Lab showed me my actual margin was 18% after ad spend and COGS. That one number changed how I run my entire business."</p>
         <div class="testi-author">
-          <div class="testi-avatar" style="background:#e0faf3;color:#00c48c;">RK</div>
-          <div><div class="testi-name">Rohit Kapoor</div><div class="testi-store">🛍️ ThreadCraft India</div></div>
+          <div class="testi-avatar" style="background:#e0faf3;color:#00c48c;">JW</div>
+          <div><div class="testi-name">Jake Willis</div><div class="testi-store">🛍️ Anchor Supply Co.</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"Setup took literally 4 minutes. No developer needed. We went live immediately and blocked 47 fake orders in the first week alone. The ROI is obvious from day one."</p>
+        <p class="testi-quote">"Setup took 4 minutes. The discount attribution alone is worth it — found out our biggest 'successful' promo code was 94% existing customers. We were subsidising people who'd have bought anyway."</p>
         <div class="testi-author">
-          <div class="testi-avatar" style="background:#e8f0fe;color:#0d6efd;">SM</div>
-          <div><div class="testi-name">Sanya Mehta</div><div class="testi-store">🛍️ Bloom & Co.</div></div>
+          <div class="testi-avatar" style="background:#e8f0fe;color:#0d6efd;">LC</div>
+          <div><div class="testi-name">Lauren Chen</div><div class="testi-store">🛍️ Petal & Thread</div></div>
         </div>
       </div>
       <div class="testi-card">
         <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"The risk scoring feature is a game changer. It flags high-RTO pincodes automatically — we've stopped shipping to problem areas that were costing us ₹2L a month."</p>
+        <p class="testi-quote">"We were using Triple Whale at $380/month and getting 10% of the features we actually needed. Switched to Rev Signal Lab at $49 and honestly it tells us more about our customers and profit than TW ever did."</p>
         <div class="testi-author">
-          <div class="testi-avatar" style="background:#fff7ed;color:#f97316;">AJ</div>
-          <div><div class="testi-name">Arjun Joshi</div><div class="testi-store">🛍️ KraftHaus</div></div>
+          <div class="testi-avatar" style="background:#fff7ed;color:#f97316;">MR</div>
+          <div><div class="testi-name">Marcus Reid</div><div class="testi-store">🛍️ Velo Goods</div></div>
         </div>
       </div>
     </div>
@@ -1006,28 +1021,28 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
     </div>
     <div class="faq-list reveal">
       <div class="faq-item">
-        <div class="faq-q">Does this work with all Shopify plans? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes. Rev Signal Labs works with all Shopify plans including Basic, Shopify, Advanced, and Shopify Plus. Installation is done entirely through the Shopify App Store.</div>
+        <div class="faq-q">Do I need a tracking pixel or developer to set this up? <span class="faq-icon">+</span></div>
+        <div class="faq-a">No pixel, no developer, no code. Rev Signal Lab connects to Shopify via OAuth and pulls everything it needs directly from your order and customer data. Setup is entirely self-serve in under 5 minutes.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">What happens if a customer doesn't reply to WhatsApp? <span class="faq-icon">+</span></div>
-        <div class="faq-a">We automatically retry via SMS after a configurable waiting period (default: 30 minutes). If there's still no reply after your set number of attempts, the order can be auto-cancelled or flagged for manual review — your choice.</div>
+        <div class="faq-q">What if my COGS or ad spend changes over time? <span class="faq-icon">+</span></div>
+        <div class="faq-a">You can update your cost inputs anytime in Settings. When you change COGS or shipping cost, we recalculate your profit history from the date you specify. Ad spend changes are stored with effective dates so historical profit stays accurate — we never retroactively apply new budgets to old periods.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Will this affect my verified/prepaid orders? <span class="faq-icon">+</span></div>
-        <div class="faq-a">No. Rev Signal Labs only activates for COD orders. Prepaid, UPI, and card orders are completely untouched and fulfil normally through Shopify.</div>
+        <div class="faq-q">How far back does Rev Signal Lab sync my data? <span class="faq-icon">+</span></div>
+        <div class="faq-a">By default we sync the last 12 months of orders on install. This gives you year-over-year comparisons from day one. Scale plan merchants can extend to 24 months. The sync happens in the background — recent data loads first so your dashboard is ready in about 60 seconds.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Can I customize the WhatsApp message? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes, on Growth and Scale plans you can fully customize the message template, including your brand name, order details, and CTA text. Starter plan uses our optimized default template.</div>
+        <div class="faq-q">How is this different from Shopify's built-in analytics? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Shopify shows you revenue. Rev Signal Lab shows you profit. We subtract your ad spend, COGS, shipping costs, and processing fees to give you net profit and true margin — numbers Shopify doesn't compute. We also show customer LTV, repeat purchase rate, and discount attribution that Shopify has no equivalent for.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How is Rev Signal Lab different from Triple Whale or Polar Analytics? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Triple Whale and Polar are built around ad attribution — they need a first-party pixel and their value is telling you which Facebook ad drove a purchase. Rev Signal Lab is built around profit clarity and customer retention — no pixel needed, works in 5 minutes, and costs 3–8x less. If you spend $20K+/month on ads and need deep attribution, Triple Whale might be for you. If you want to understand your profit and customers without the complexity, Rev Signal Lab is built for that.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Is there a free trial? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes — every plan comes with a 14-day free trial. No credit card required. Full access from day one so you can see the RTO reduction for yourself before paying anything.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">How do you count "verifications"? <span class="faq-icon">+</span></div>
-        <div class="faq-a">One verification = one COD order where we send at least one message. It doesn't matter how many retries or channels we use for that order — it counts as one verification in your monthly quota.</div>
+        <div class="faq-a">Yes — every plan comes with a 14-day free trial. No credit card required. Full access from day one including historical sync, P&L dashboard, customer analytics, and weekly email reports. Billing is handled through Shopify so you can cancel anytime from your Shopify admin.</div>
       </div>
     </div>
   </div>
@@ -1037,10 +1052,10 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <section class="cta-section">
   <div class="container">
     <div class="tag">Start today</div>
-    <h2>Stop losing money on<br>undelivered COD orders</h2>
-    <p>Join 1,200+ Shopify stores that are shipping smarter, not harder — with Rev Signal Labs.</p>
+    <h2>Stop guessing.<br>Start knowing your profit.</h2>
+    <p>Join 800+ Shopify stores that finally understand what they're making — and what's eating into it.</p>
     <div class="hero-ctas">
-      <button class="btn btn-white open-trial" data-plan="Growth Plan">Install Free on Shopify →</button>
+      <button class="btn btn-white open-trial" data-plan="Growth Plan">Start Free Trial on Shopify →</button>
       <a href="#features" class="btn" style="color:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.2);">See all features</a>
     </div>
     <p class="cta-note">Free 14-day trial · No credit card · Cancel anytime</p>
@@ -1051,7 +1066,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-logo">Rev<span>Signal</span> Labs</div>
+      <div class="footer-logo">Rev<span>Signal</span> Lab</div>
       <ul class="footer-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
@@ -1060,7 +1075,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
         <li><a href="#">Terms</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
-      <div class="footer-copy">© 2025 Rev Signal Labs. All rights reserved.</div>
+      <div class="footer-copy">© 2025 Rev Signal Lab. All rights reserved.</div>
     </div>
   </div>
 </footer>
@@ -1086,7 +1101,7 @@ const modalFormBody = document.getElementById('modalFormBody');
 const modalSuccess = document.getElementById('modalSuccess');
 
 function openModal(plan) {
-  modalPlanLabel.textContent = plan || 'Free 14-day trial · No card required';
+  modalPlanLabel.textContent = plan ? plan + ' · Free 14-day trial' : 'Free 14-day trial · No card required';
   modalFormBody.style.display = '';
   modalSuccess.classList.remove('show');
   overlay.classList.add('open');
