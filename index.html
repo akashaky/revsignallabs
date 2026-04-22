@@ -147,18 +147,10 @@ nav {
 .hero { padding: 140px 0 80px; text-align: center; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--green-light); color: var(--green);
-  border: 1px solid rgba(0,196,140,0.2); border-radius: 100px;
+  background: var(--accent-light); color: var(--accent);
+  border: 1px solid rgba(13,110,253,0.2); border-radius: 100px;
   padding: 6px 14px 6px 10px; font-size: 0.78rem; font-weight: 700;
   margin-bottom: 28px; animation: fadeUp 0.5s ease both;
-}
-.live-dot {
-  width: 7px; height: 7px; background: var(--green);
-  border-radius: 50%; animation: livePulse 2s ease infinite;
-}
-@keyframes livePulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(0,196,140,0.5); }
-  50% { box-shadow: 0 0 0 6px rgba(0,196,140,0); }
 }
 .hero h1 {
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -168,7 +160,6 @@ nav {
   margin: 0 auto 20px; animation: fadeUp 0.5s 0.08s ease both;
 }
 .hero h1 em { font-style: normal; color: var(--accent); }
-.hero h1 .strike { text-decoration: line-through; color: var(--muted); }
 .hero-sub {
   font-size: 1.1rem; color: var(--text-sec); max-width: 520px;
   margin: 0 auto 40px; animation: fadeUp 0.5s 0.16s ease both;
@@ -247,19 +238,12 @@ nav {
 .pnl-margin .label { font-size: 0.72rem; color: var(--muted); }
 .pnl-margin .val { font-size: 0.72rem; font-weight: 700; color: var(--green); background: var(--green-light); padding: 2px 8px; border-radius: 100px; }
 
-/* LOGOS */
-.logos-bar { padding: 44px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--white); }
-.logos-label { text-align: center; font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
-.logos-row { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
-.logo-item { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1rem; color: var(--muted); opacity: 0.5; letter-spacing: -0.02em; }
-
-/* STATS */
-.stats-section { padding: 80px 0; background: var(--accent); }
-.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
-.stat-item { text-align: center; padding: 20px; border-right: 1px solid rgba(255,255,255,0.15); }
-.stat-item:last-child { border-right: none; }
-.stat-num { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.03em; }
-.stat-desc { font-size: 0.82rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+/* DEMO NOTE */
+.demo-note {
+  text-align: center; margin-top: 16px;
+  font-size: 0.75rem; color: var(--muted);
+  font-style: italic;
+}
 
 /* PROBLEM SECTION */
 .problem { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); }
@@ -352,8 +336,8 @@ nav {
 .flow-icon.purple { background: var(--purple-light); }
 .flow-step-title { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .flow-step-desc { font-size: 0.75rem; color: var(--muted); }
-.flow-result { margin-top: 20px; background: var(--green-light); border: 1px solid rgba(0,196,140,0.2); border-radius: 10px; padding: 14px 16px; }
-.flow-result-label { font-size: 0.68rem; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.flow-result { margin-top: 20px; background: var(--accent-light); border: 1px solid rgba(13,110,253,0.15); border-radius: 10px; padding: 14px 16px; }
+.flow-result-label { font-size: 0.68rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
 .flow-result-text { font-size: 0.8rem; color: var(--text-sec); }
 
 /* PRICING */
@@ -399,24 +383,6 @@ nav {
 .plan-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 .plan-btn.primary-btn { background: var(--accent); color: #fff; border-color: transparent; box-shadow: 0 4px 14px rgba(13,110,253,0.3); }
 .plan-btn.primary-btn:hover { background: var(--accent-dark); box-shadow: 0 8px 20px rgba(13,110,253,0.35); transform: translateY(-1px); }
-
-/* TESTIMONIALS */
-.testimonials { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); }
-.testimonials-header { text-align: center; margin-bottom: 60px; }
-.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-.testi-card {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 28px;
-  transition: all var(--t);
-}
-.testi-card:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); transform: translateY(-2px); }
-.testi-stars { display: flex; gap: 2px; margin-bottom: 14px; }
-.star { color: var(--yellow); font-size: 14px; }
-.testi-quote { font-size: 0.9rem; color: var(--text); line-height: 1.72; margin-bottom: 20px; font-style: italic; }
-.testi-author { display: flex; align-items: center; gap: 12px; }
-.testi-avatar { width: 40px; height: 40px; border-radius: 50%; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.875rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.testi-name { font-weight: 700; font-size: 0.875rem; }
-.testi-store { font-size: 0.75rem; color: var(--muted); }
 
 /* FAQ */
 .faq { padding: 100px 0; }
@@ -507,6 +473,12 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 .modal-success h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 1.3rem; margin-bottom: 10px; }
 .modal-success p { font-size: 0.9rem; color: var(--text-sec); }
 
+/* EARLY ACCESS BANNER */
+.early-access-bar {
+  background: var(--accent-light); border-bottom: 1px solid rgba(13,110,253,0.15);
+  text-align: center; padding: 10px 24px; font-size: 0.8rem; color: var(--accent); font-weight: 600;
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -521,10 +493,6 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   .feat-card.wide { grid-column: span 1; }
   .problem-inner, .how-inner { grid-template-columns: 1fr; gap: 40px; }
   .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-  .testi-grid { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: repeat(2,1fr); }
-  .stat-item:nth-child(2) { border-right: none; }
-  .logos-row { gap: 28px; }
 }
 @media (max-width: 700px) {
   .nav-links, .nav-right .btn { display: none; }
@@ -539,12 +507,15 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 @media (max-width: 500px) {
   .kpi-grid { grid-template-columns: 1fr 1fr; }
   .hero h1 { font-size: 2.1rem; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .stat-item { padding: 16px 12px; }
 }
 </style>
 </head>
 <body>
+
+<!-- EARLY ACCESS BANNER -->
+<div class="early-access-bar">
+  🚀 Currently in early access — join the waitlist and be among the first stores to try it free
+</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="trialModal">
@@ -552,18 +523,18 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
     <button class="modal-close" id="modalClose">✕</button>
     <div id="modalFormBody">
       <div class="modal-icon">📊</div>
-      <h3>Start your free trial</h3>
-      <div class="modal-plan-text" id="modalPlanLabel">Free 14-day trial · No card required</div>
-      <div class="modal-sub">Enter your store URL and we'll redirect you to the Shopify App Store to install Rev Signal Lab.</div>
-      <input type="text" id="storeInput" class="modal-input" placeholder="yourstore.myshopify.com" autocomplete="off" />
+      <h3>Join the waitlist</h3>
+      <div class="modal-plan-text" id="modalPlanLabel">Early access · Free trial included</div>
+      <div class="modal-sub">Leave your details and we'll notify you the moment Rev Signal Lab is live on the Shopify App Store.</div>
+      <input type="text" id="storeInput" class="modal-input" placeholder="yourstore.myshopify.com (optional)" autocomplete="off" />
       <input type="email" id="emailInput" class="modal-input" placeholder="your@email.com" />
-      <button class="modal-submit" id="modalSubmit">Install Free → Start Trial</button>
-      <div class="modal-fine">By installing you agree to our Terms & Privacy Policy.</div>
+      <button class="modal-submit" id="modalSubmit">Join the Waitlist →</button>
+      <div class="modal-fine">No spam. We'll only email you when we launch.</div>
     </div>
     <div class="modal-success" id="modalSuccess">
       <div class="success-icon">✅</div>
-      <h3>Redirecting you now!</h3>
-      <p>Opening the Shopify App Store. Your 14-day free trial starts on install — no card needed.</p>
+      <h3>You're on the list!</h3>
+      <p>We'll email you as soon as Rev Signal Lab launches on the Shopify App Store. Thank you for your interest!</p>
     </div>
   </div>
 </div>
@@ -574,7 +545,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   <a href="#features" class="mobile-nav-link">Features</a>
   <a href="#how-it-works" class="mobile-nav-link">How it works</a>
   <a href="#pricing" class="mobile-nav-link">Pricing</a>
-  <a href="#" class="open-trial mobile-cta-link" data-plan="Growth Plan — Free trial">Start Free Trial</a>
+  <a href="#" class="open-trial mobile-cta-link" data-plan="Early Access">Join Waitlist</a>
 </div>
 
 <!-- NAV -->
@@ -597,7 +568,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
         <li><a href="#pricing">Pricing</a></li>
       </ul>
       <div class="nav-right">
-        <a href="#pricing" class="btn btn-primary open-trial" style="font-size:0.82rem;padding:9px 18px;" data-plan="Growth Plan">Start Free Trial</a>
+        <a href="#" class="btn btn-primary open-trial" style="font-size:0.82rem;padding:9px 18px;" data-plan="Early Access">Join Waitlist</a>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
           <span></span><span></span><span></span>
         </button>
@@ -609,14 +580,14 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-badge"><div class="live-dot"></div>Now live on Shopify App Store</div>
+    <div class="hero-badge">🛠️ &nbsp;Coming soon to Shopify App Store</div>
     <h1>Finally know your<br><em>true profit</em> — not just revenue</h1>
     <p class="hero-sub">Rev Signal Lab shows Shopify merchants their real net profit after ad spend, COGS, shipping, and fees — in under 5 minutes. No pixel. No complexity. Just clarity.</p>
     <div class="hero-ctas">
-      <button class="btn btn-primary open-trial" data-plan="Growth Plan — Free trial">Start Free Trial on Shopify</button>
+      <button class="btn btn-primary open-trial" data-plan="Early Access">Get Early Access</button>
       <a href="#how-it-works" class="btn btn-outline">See how it works →</a>
     </div>
-    <p class="hero-note">Free 14-day trial · No credit card · 5-minute setup</p>
+    <p class="hero-note">Free trial on launch · No credit card · 5-minute setup</p>
 
     <div class="hero-dashboard">
       <div class="dash-wrap">
@@ -625,7 +596,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
             <div class="dash-store-icon">🛍️</div>
             <div>
               <div class="dash-store-name">Minimalist Collective</div>
-              <div class="dash-store-sub">myshopify.com · Synced 3 minutes ago</div>
+              <div class="dash-store-sub">Example store · Dashboard preview</div>
             </div>
           </div>
           <div class="dash-period">Last 30 Days ▾</div>
@@ -672,33 +643,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           <div class="pnl-margin"><span class="label">Profit Margin</span><span class="val">36.7%</span></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- LOGOS -->
-<div class="logos-bar">
-  <div class="container">
-    <div class="logos-label">Trusted by 800+ Shopify stores worldwide</div>
-    <div class="logos-row">
-      <div class="logo-item">Allbirds</div>
-      <div class="logo-item">Gymshark</div>
-      <div class="logo-item">MVMT</div>
-      <div class="logo-item">Brooklinen</div>
-      <div class="logo-item">Chubbies</div>
-      <div class="logo-item">Cuts</div>
-    </div>
-  </div>
-</div>
-
-<!-- STATS -->
-<section class="stats-section reveal">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item"><div class="stat-num">800+</div><div class="stat-desc">Shopify stores using Rev Signal Lab</div></div>
-      <div class="stat-item"><div class="stat-num">5 min</div><div class="stat-desc">Average setup time</div></div>
-      <div class="stat-item"><div class="stat-num">$2.4M</div><div class="stat-desc">Profit tracked monthly</div></div>
-      <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-desc">Shopify App Store rating</div></div>
+      <p class="demo-note">Sample data for illustration purposes — your real numbers will appear once connected.</p>
     </div>
   </div>
 </section>
@@ -795,7 +740,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
       <div class="feat-card">
         <div class="feat-icon red">📬</div>
         <div class="feat-name">Weekly Profit Email</div>
-        <div class="feat-desc">Every Monday, get your store's P&L summary in your inbox. Last week vs prior week, top product, and one key insight. The one report merchants actually open — and the biggest reason they stay subscribed.</div>
+        <div class="feat-desc">Every Monday, get your store's P&L summary in your inbox. Last week vs prior week, top product, and one key insight. The one report you'll actually want to open each week.</div>
       </div>
 
       <div class="feat-card">
@@ -887,8 +832,8 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           </div>
         </div>
         <div class="flow-result">
-          <div class="flow-result-label">💡 What merchants say</div>
-          <div class="flow-result-text">Most merchants tell us they learned something new about their business <strong>within the first 10 minutes</strong> of using Rev Signal Lab.</div>
+          <div class="flow-result-label">💡 The goal</div>
+          <div class="flow-result-text">Most merchants will learn something new about their business <strong>within the first 10 minutes</strong> of connecting their store.</div>
         </div>
       </div>
 
@@ -902,7 +847,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
     <div class="pricing-header reveal">
       <div class="tag">Pricing</div>
       <div class="section-title">Straightforward pricing.<br>No surprises.</div>
-      <p class="section-sub">3x cheaper than Triple Whale. All plans include a 14-day free trial — no credit card required.</p>
+      <p class="section-sub">All plans include a free trial on launch — no credit card required to get started.</p>
     </div>
     <div class="pricing-grid reveal">
 
@@ -924,7 +869,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           <li><span class="check">✓</span>Weekly email report</li>
           <li><span class="check">✓</span>Email support</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Starter — $19/mo">Start Free Trial</button>
+        <button class="plan-btn open-trial" data-plan="Starter — $19/mo">Get Early Access</button>
       </div>
 
       <div class="price-card featured">
@@ -947,7 +892,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           <li><span class="check">✓</span>Cost history (change COGS over time)</li>
           <li><span class="check">✓</span>Priority support</li>
         </ul>
-        <button class="plan-btn primary-btn open-trial" data-plan="Growth — $49/mo">Start Free Trial</button>
+        <button class="plan-btn primary-btn open-trial" data-plan="Growth — $49/mo">Get Early Access</button>
       </div>
 
       <div class="price-card">
@@ -969,45 +914,9 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
           <li><span class="check">✓</span>Cohort retention table</li>
           <li><span class="check">✓</span>Dedicated onboarding call</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Scale — $99/mo">Start Free Trial</button>
+        <button class="plan-btn open-trial" data-plan="Scale — $99/mo">Get Early Access</button>
       </div>
 
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials" id="testimonials">
-  <div class="container">
-    <div class="testimonials-header reveal">
-      <div class="tag">Reviews</div>
-      <div class="section-title">Merchants finally know<br>their real numbers</div>
-    </div>
-    <div class="testi-grid reveal">
-      <div class="testi-card">
-        <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"I was looking at $40K in monthly revenue thinking I was killing it. Rev Signal Lab showed me my actual margin was 18% after ad spend and COGS. That one number changed how I run my entire business."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:#e0faf3;color:#00c48c;">JW</div>
-          <div><div class="testi-name">Jake Willis</div><div class="testi-store">🛍️ Anchor Supply Co.</div></div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"Setup took 4 minutes. The discount attribution alone is worth it — found out our biggest 'successful' promo code was 94% existing customers. We were subsidising people who'd have bought anyway."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:#e8f0fe;color:#0d6efd;">LC</div>
-          <div><div class="testi-name">Lauren Chen</div><div class="testi-store">🛍️ Petal & Thread</div></div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testi-quote">"We were using Triple Whale at $380/month and getting 10% of the features we actually needed. Switched to Rev Signal Lab at $49 and honestly it tells us more about our customers and profit than TW ever did."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:#fff7ed;color:#f97316;">MR</div>
-          <div><div class="testi-name">Marcus Reid</div><div class="testi-store">🛍️ Velo Goods</div></div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1041,8 +950,8 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
         <div class="faq-a">Triple Whale and Polar are built around ad attribution — they need a first-party pixel and their value is telling you which Facebook ad drove a purchase. Rev Signal Lab is built around profit clarity and customer retention — no pixel needed, works in 5 minutes, and costs 3–8x less. If you spend $20K+/month on ads and need deep attribution, Triple Whale might be for you. If you want to understand your profit and customers without the complexity, Rev Signal Lab is built for that.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Is there a free trial? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes — every plan comes with a 14-day free trial. No credit card required. Full access from day one including historical sync, P&L dashboard, customer analytics, and weekly email reports. Billing is handled through Shopify so you can cancel anytime from your Shopify admin.</div>
+        <div class="faq-q">When will it be available? <span class="faq-icon">+</span></div>
+        <div class="faq-a">We're currently in development and working toward our Shopify App Store launch. Join the waitlist to be notified the moment we go live — early access members will get a free trial from day one, no credit card required.</div>
       </div>
     </div>
   </div>
@@ -1051,14 +960,14 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <div class="tag">Start today</div>
+    <div class="tag">Get early access</div>
     <h2>Stop guessing.<br>Start knowing your profit.</h2>
-    <p>Join 800+ Shopify stores that finally understand what they're making — and what's eating into it.</p>
+    <p>Be among the first Shopify stores to get access when we launch — and get a free trial from day one.</p>
     <div class="hero-ctas">
-      <button class="btn btn-white open-trial" data-plan="Growth Plan">Start Free Trial on Shopify →</button>
+      <button class="btn btn-white open-trial" data-plan="Early Access">Join the Waitlist →</button>
       <a href="#features" class="btn" style="color:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.2);">See all features</a>
     </div>
-    <p class="cta-note">Free 14-day trial · No credit card · Cancel anytime</p>
+    <p class="cta-note">Free trial on launch · No credit card · Cancel anytime</p>
   </div>
 </section>
 
@@ -1101,15 +1010,15 @@ const modalFormBody = document.getElementById('modalFormBody');
 const modalSuccess = document.getElementById('modalSuccess');
 
 function openModal(plan) {
-  modalPlanLabel.textContent = plan ? plan + ' · Free 14-day trial' : 'Free 14-day trial · No card required';
+  modalPlanLabel.textContent = plan ? plan + ' · Early access · Free trial included' : 'Early access · Free trial included';
   modalFormBody.style.display = '';
   modalSuccess.classList.remove('show');
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('storeInput').value = '';
   document.getElementById('emailInput').value = '';
-  document.getElementById('storeInput').classList.remove('error');
-  setTimeout(() => document.getElementById('storeInput').focus(), 100);
+  document.getElementById('emailInput').classList.remove('error');
+  setTimeout(() => document.getElementById('emailInput').focus(), 100);
 }
 function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
 
@@ -1124,12 +1033,14 @@ overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(); 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
 modalSubmit.addEventListener('click', () => {
-  const store = document.getElementById('storeInput');
-  if (!store.value.trim()) { store.classList.add('error'); store.focus(); return; }
-  store.classList.remove('error');
+  const email = document.getElementById('emailInput');
+  if (!email.value.trim() || !email.value.includes('@')) {
+    email.classList.add('error'); email.focus(); return;
+  }
+  email.classList.remove('error');
   modalFormBody.style.display = 'none';
   modalSuccess.classList.add('show');
-  setTimeout(closeModal, 3000);
+  setTimeout(closeModal, 3500);
 });
 
 /* SMOOTH SCROLL */
