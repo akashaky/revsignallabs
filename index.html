@@ -486,6 +486,17 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* PRIVACY */
+.privacy { padding: 100px 0; background: var(--white); border-top: 1px solid var(--border); }
+.privacy-header { margin-bottom: 48px; }
+.privacy-body { max-width: 720px; }
+.privacy-body h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.05rem; margin: 32px 0 8px; color: var(--text); }
+.privacy-body h3:first-child { margin-top: 0; }
+.privacy-body p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.8; margin-bottom: 10px; }
+.privacy-body ul { padding-left: 20px; margin-bottom: 10px; }
+.privacy-body ul li { font-size: 0.9rem; color: var(--text-sec); line-height: 1.8; }
+.privacy-updated { display: inline-block; font-size: 0.75rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px; margin-bottom: 32px; }
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .kpi-grid { grid-template-columns: repeat(2,1fr); }
@@ -849,72 +860,31 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
       <div class="section-title">Straightforward pricing.<br>No surprises.</div>
       <p class="section-sub">All plans include a free trial on launch — no credit card required to get started.</p>
     </div>
-    <div class="pricing-grid reveal">
+    <div style="display:flex;justify-content:center;" class="reveal">
 
-      <div class="price-card">
-        <div class="plan-tier">Starter</div>
+      <div class="price-card featured" style="max-width:420px;width:100%;">
+        <div class="popular-badge">14-DAY FREE TRIAL</div>
+        <div class="plan-tier">Full Access Plan</div>
         <div class="plan-price-row">
           <span class="price-dollar">$</span>
-          <span class="price-amount">19</span>
+          <span class="price-amount">29</span>
           <span class="price-period">/mo</span>
         </div>
-        <div class="plan-orders">Up to 500 orders/month</div>
+        <div class="plan-orders">Everything included · No order limits</div>
         <div class="price-divider"></div>
-        <div class="plan-desc">For stores just getting started who want to understand their profit for the first time.</div>
+        <div class="plan-desc">One simple plan. Full access to every feature from day one — try it free for 14 days, no credit card required.</div>
         <ul class="plan-feats">
-          <li><span class="check">✓</span>P&amp;L dashboard (revenue, profit, margin)</li>
-          <li><span class="check">✓</span>Sales breakdown by product</li>
-          <li><span class="check">✓</span>New vs returning customer split</li>
-          <li><span class="check">✓</span>12-month history sync</li>
-          <li><span class="check">✓</span>Weekly email report</li>
+          <li><span class="check">✓</span>P&amp;L dashboard — revenue, profit, margin</li>
+          <li><span class="check">✓</span>Sales breakdown by product and collection</li>
+          <li><span class="check">✓</span>Customer analytics — LTV, repeat rate, top buyers</li>
+          <li><span class="check">✓</span>Discount code attribution</li>
+          <li><span class="check">✓</span>12-month order history sync</li>
+          <li><span class="check">✓</span>Weekly profit email every Monday</li>
+          <li><span class="check">✓</span>Cost history — update COGS over time</li>
           <li><span class="check">✓</span>Email support</li>
         </ul>
-        <button class="plan-btn open-trial" data-plan="Starter — $19/mo">Get Early Access</button>
-      </div>
-
-      <div class="price-card featured">
-        <div class="popular-badge">MOST POPULAR</div>
-        <div class="plan-tier">Growth</div>
-        <div class="plan-price-row">
-          <span class="price-dollar">$</span>
-          <span class="price-amount">49</span>
-          <span class="price-period">/mo</span>
-        </div>
-        <div class="plan-orders">Up to 5,000 orders/month</div>
-        <div class="price-divider"></div>
-        <div class="plan-desc">For scaling stores who want the full picture — profit, customers, and discount attribution.</div>
-        <ul class="plan-feats">
-          <li><span class="check">✓</span>Everything in Starter</li>
-          <li><span class="check">✓</span>Discount code attribution</li>
-          <li><span class="check">✓</span>Customer LTV + repeat rate</li>
-          <li><span class="check">✓</span>Top 25 customers by LTV</li>
-          <li><span class="check">✓</span>Coupon site leakage detection</li>
-          <li><span class="check">✓</span>Cost history (change COGS over time)</li>
-          <li><span class="check">✓</span>Priority support</li>
-        </ul>
-        <button class="plan-btn primary-btn open-trial" data-plan="Growth — $49/mo">Get Early Access</button>
-      </div>
-
-      <div class="price-card">
-        <div class="plan-tier">Scale</div>
-        <div class="plan-price-row">
-          <span class="price-dollar">$</span>
-          <span class="price-amount">99</span>
-          <span class="price-period">/mo</span>
-        </div>
-        <div class="plan-orders">Unlimited orders</div>
-        <div class="price-divider"></div>
-        <div class="plan-desc">For established brands who need unlimited data and are ready for Meta Ads integration.</div>
-        <ul class="plan-feats">
-          <li><span class="check">✓</span>Everything in Growth</li>
-          <li><span class="check">✓</span>Unlimited orders</li>
-          <li><span class="check">✓</span>Meta Ads API (auto spend sync)</li>
-          <li><span class="check">✓</span>24-month history</li>
-          <li><span class="check">✓</span>CSV export</li>
-          <li><span class="check">✓</span>Cohort retention table</li>
-          <li><span class="check">✓</span>Dedicated onboarding call</li>
-        </ul>
-        <button class="plan-btn open-trial" data-plan="Scale — $99/mo">Get Early Access</button>
+        <button class="plan-btn primary-btn open-trial" data-plan="Full Access — $29/mo">Start Free 14-Day Trial</button>
+        <p style="text-align:center;font-size:0.75rem;color:var(--muted);margin-top:14px;">Free for 14 days · No credit card · Cancel anytime</p>
       </div>
 
     </div>
@@ -971,6 +941,60 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
   </div>
 </section>
 
+<!-- PRIVACY POLICY -->
+<section class="privacy" id="privacy">
+  <div class="container">
+    <div class="privacy-header reveal">
+      <div class="tag">Privacy Policy</div>
+      <div class="section-title">How we handle your data</div>
+      <span class="privacy-updated">Last updated: April 2025</span>
+    </div>
+    <div class="privacy-body reveal">
+
+      <h3>1. Who we are</h3>
+      <p>Rev Signal Lab ("we", "our", or "us") is a Shopify analytics application. We are the data controller for the information we collect through our app. For questions, contact us at privacy@revsignallab.com.</p>
+
+      <h3>2. What data we collect</h3>
+      <p>When you install Rev Signal Lab, we access the following data from your Shopify store via the Shopify API:</p>
+      <ul>
+        <li>Order data — order amounts, dates, products, discounts, refunds, and fulfilment status</li>
+        <li>Customer data — customer IDs, purchase history, and order frequency (no names or contact details are stored)</li>
+        <li>Product data — product titles, collections, and variants</li>
+        <li>Discount code data — code names, usage counts, and associated order values</li>
+      </ul>
+      <p>We also collect the cost inputs you provide directly (COGS %, shipping cost, ad budget). We do not collect or store payment card details, customer passwords, or personally identifiable customer information such as names, emails, or addresses.</p>
+
+      <h3>3. How we use your data</h3>
+      <p>We use your store data solely to power your Rev Signal Lab dashboard — calculating net profit, margin, customer analytics, and discount attribution. We do not sell your data, share it with third parties for advertising purposes, or use it to train machine learning models.</p>
+
+      <h3>4. Data storage and security</h3>
+      <p>Your data is stored on encrypted servers. We use industry-standard security practices including HTTPS for all data in transit and encryption at rest. Access to your store data is restricted to the minimum permissions required to operate the app.</p>
+
+      <h3>5. Data retention</h3>
+      <p>We retain your store data for as long as your Rev Signal Lab subscription is active. If you uninstall the app, your data is permanently deleted within 30 days. You may request immediate deletion by contacting us at privacy@revsignallab.com.</p>
+
+      <h3>6. Third-party services</h3>
+      <p>Rev Signal Lab uses the following third-party services to operate:</p>
+      <ul>
+        <li>Shopify API — to sync your store data securely via OAuth</li>
+        <li>Cloud hosting provider — to store and process your data</li>
+        <li>Transactional email provider — to deliver your weekly profit email report</li>
+      </ul>
+      <p>Each provider is bound by their own privacy policies and data processing agreements. We do not grant third parties access to your raw store data beyond what is necessary to operate these services.</p>
+
+      <h3>7. Your rights</h3>
+      <p>You have the right to access, correct, or delete the data we hold about you and your store at any time. To exercise these rights, contact us at privacy@revsignallab.com. We will respond within 30 days.</p>
+
+      <h3>8. Changes to this policy</h3>
+      <p>We may update this Privacy Policy from time to time. We will notify active merchants of material changes via email and update the "Last updated" date at the top of this page.</p>
+
+      <h3>9. Contact</h3>
+      <p>For any privacy-related questions or requests, please email us at privacy@revsignallab.com.</p>
+
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -980,7 +1004,7 @@ footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); 
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="#">Privacy</a></li>
+        <li><a href="#privacy">Privacy</a></li>
         <li><a href="#">Terms</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
